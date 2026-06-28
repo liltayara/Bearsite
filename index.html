@@ -4,12 +4,31 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bear | Professional Personal Websites</title>
+
+<!-- ══ SEO ══ -->
+<meta name="description" content="Bear — Professional personal websites for creators, developers, artists and businesses. Stunning designs starting from $10. Fast delivery, mobile responsive, fully custom.">
+<meta name="keywords" content="personal website, portfolio website, professional website, web design, Bear, personal portfolio, developer portfolio, artist website">
+<meta name="author" content="Bear — liltayara">
+<link rel="canonical" href="https://liltayara.github.io/Bearsite/">
+
+<!-- ══ Open Graph (واتساب / تيليجرام / فيسبوك) ══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://liltayara.github.io/Bearsite/">
+<meta property="og:title" content="Bear | Professional Personal Websites">
+<meta property="og:description" content="Your vision, built into a stunning personal website. For photographers, developers, artists, and business owners. Starting from $10.">
+<meta property="og:image" content="https://liltayara.github.io/Bearsite/og-image.jpg">
+<meta property="og:site_name" content="Bear">
+<meta property="og:locale" content="en_US">
+
+<!-- ══ Twitter Card ══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bear | Professional Personal Websites">
+<meta name="twitter:description" content="Your vision, built into a stunning personal website. Starting from $10.">
+<meta name="twitter:image" content="https://liltayara.github.io/Bearsite/og-image.jpg">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics-compat.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
 <style>
 :root{
@@ -315,9 +334,29 @@ footer{background:var(--bg1);border-top:1px solid var(--bdr2);padding:80px 0 40p
 @media(max-width:1024px){.ft-grid{grid-template-columns:1fr 1fr;gap:40px}.con-grid{grid-template-columns:1fr;gap:40px}.proc-grid::before{display:none}}
 @media(max-width:768px){.nav-links,.nav-cta{display:none}.ham{display:flex}.stats-grid{grid-template-columns:1fr 1fr}.sec{padding:70px 0}.ft-grid{grid-template-columns:1fr;gap:30px}.f-row{grid-template-columns:1fr}.ft-btm{flex-direction:column;gap:10px;text-align:center}.hero h1{letter-spacing:-1px}.pr-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.sc{flex:0 0 230px;height:144px}.hero-ctas{flex-direction:column;align-items:center}}
+
+/* ── PAGE PRELOADER ── */
+#page-loader{position:fixed;inset:0;background:#000;z-index:99998;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .6s ease,visibility .6s ease}
+#page-loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.pl-logo{display:flex;align-items:center;gap:10px;animation:pl-pulse 1.5s ease-in-out infinite}
+.pl-logo-box{width:44px;height:44px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:21px}
+.pl-logo-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:24px;color:#fff;letter-spacing:-.5px}
+.pl-bar{width:140px;height:3px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.pl-fill{height:100%;width:0;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:3px;animation:pl-load 1.1s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes pl-load{0%{width:0}60%{width:70%}100%{width:100%}}
+@keyframes pl-pulse{0%,100%{opacity:.85}50%{opacity:1}}
 </style>
 </head>
 <body>
+
+<!-- ══ PAGE PRELOADER ══ -->
+<div id="page-loader">
+  <div class="pl-logo">
+    <div class="pl-logo-box"><i class="fa-solid fa-paw"></i></div>
+    <span class="pl-logo-name">Bear</span>
+  </div>
+  <div class="pl-bar"><div class="pl-fill"></div></div>
+</div>
 
 <!-- ══ GOOGLE LOGIN SCREEN ══ -->
 <div class="login-screen" id="loginScreen">
@@ -1188,6 +1227,14 @@ footer{background:var(--bg1);border-top:1px solid var(--bdr2);padding:80px 0 40p
 // Init AOS
 AOS.init({duration:700,once:true,offset:60});
 
+// ── Page Preloader ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    const loader = document.getElementById('page-loader');
+    if (loader) loader.classList.add('hidden');
+  }, 1200);
+});
+
 // Pre-fill contact form from templates.html selection
 (function(){
   const p=new URLSearchParams(window.location.search);
@@ -1253,92 +1300,86 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
 });
 
 // ══════════════════════════════════════════════════
-// FIREBASE INIT
+// GOOGLE SIGN-IN
 // ══════════════════════════════════════════════════
-const firebaseConfig = {
-  apiKey:            "AIzaSyA2hYu9LiVWQk8-YQiHqz3ikJdqT1gGB7c",
-  authDomain:        "bearssites.firebaseapp.com",
-  projectId:         "bearssites",
-  storageBucket:     "bearssites.firebasestorage.app",
-  messagingSenderId: "66770893866",
-  appId:             "1:66770893866:web:41520a1a51c799ead35753",
-  measurementId:     "G-L05C7DHVHW"
-};
-firebase.initializeApp(firebaseConfig);
-const fbAuth      = firebase.auth();
-const fbAnalytics = firebase.analytics();
-const googleProvider = new firebase.auth.GoogleAuthProvider();
+// ⚠️ ضع Client ID من Google Cloud Console هنا:
+const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
 
-// ══════════════════════════════════════════════════
-// GOOGLE SIGN-IN via Firebase
-// ══════════════════════════════════════════════════
 let googleUser = null;
 
 function startGoogleSignIn() {
-  fbAuth.signInWithPopup(googleProvider)
-    .then(result => onFirebaseUser(result.user))
-    .catch(err => {
-      if (err.code !== 'auth/popup-closed-by-user') {
-        showToast('error', 'Sign-In Failed', err.message || 'Please try again.');
-      }
-    });
-}
-
-function onFirebaseUser(user) {
-  googleUser = {
-    name:    user.displayName,
-    email:   user.email,
-    picture: user.photoURL
-  };
-  // Show user card in login loading state
-  document.getElementById('loginBtnWrap').style.display = 'none';
-  const ll = document.getElementById('loginLoading');
-  ll.style.display = 'flex';
-  const lc = document.getElementById('loginUserCard');
-  document.getElementById('loginUserAv').src    = googleUser.picture || '';
-  document.getElementById('loginUserName').textContent  = googleUser.name;
-  document.getElementById('loginUserEmail').textContent = googleUser.email;
-  setTimeout(() => { lc.style.display = 'flex'; }, 200);
-  setTimeout(() => dismissLoginScreen(googleUser), 1500);
-  // Log analytics event
-  fbAnalytics.logEvent('login', { method: 'Google' });
-}
-
-// Watch auth state — handles page refresh
-fbAuth.onAuthStateChanged(user => {
-  if (user) {
-    googleUser = { name: user.displayName, email: user.email, picture: user.photoURL };
-    dismissLoginScreen(googleUser);
-  } else {
-    // No user signed in — show login screen
-    document.getElementById('loginScreen')?.classList.remove('out');
+  if (typeof google === 'undefined') {
+    showToast('error', 'Connection Error', 'Could not load Google Sign-In. Check your internet.');
+    return;
   }
-});
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleGoogleCredential,
+    auto_select: false,
+    cancel_on_tap_outside: false
+  });
+  google.accounts.id.prompt();
+}
+
+function handleGoogleCredential(response) {
+  try {
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    googleUser = { name: payload.name, email: payload.email, picture: payload.picture };
+    sessionStorage.setItem('bear_guser', JSON.stringify(googleUser));
+    // Show user card in loading
+    document.getElementById('loginBtnWrap').style.display = 'none';
+    const ll = document.getElementById('loginLoading');
+    ll.style.display = 'flex';
+    const lc = document.getElementById('loginUserCard');
+    document.getElementById('loginUserAv').src = googleUser.picture;
+    document.getElementById('loginUserName').textContent = googleUser.name;
+    document.getElementById('loginUserEmail').textContent = googleUser.email;
+    setTimeout(() => { lc.style.display = 'flex'; }, 200);
+    setTimeout(() => dismissLoginScreen(googleUser), 1500);
+  } catch(e) {
+    showToast('error', 'Sign-In Error', 'Could not read account info. Please try again.');
+  }
+}
 
 function dismissLoginScreen(user) {
   document.getElementById('loginScreen').classList.add('out');
   if (user) {
     document.getElementById('navUserAv').src = user.picture || '';
-    document.getElementById('navUserName').textContent = user.name?.split(' ')[0] || 'User';
+    document.getElementById('navUserName').textContent = user.name.split(' ')[0];
     document.getElementById('navUser').style.display = 'flex';
     const cta = document.querySelector('.nav-cta');
     if (cta) cta.style.display = 'none';
+
+    // ── Auto-fill contact form ──
+    const nameParts = user.name.split(' ');
+    const fname = document.getElementById('cf-fname');
+    const lname = document.getElementById('cf-lname');
+    const email = document.getElementById('cf-email');
+    if (fname) fname.value = nameParts[0] || '';
+    if (lname) lname.value = nameParts.slice(1).join(' ') || '';
+    if (email) email.value = user.email || '';
   }
 }
 
 function signOutGoogle() {
-  fbAuth.signOut().then(() => {
-    googleUser = null;
-    document.getElementById('navUser').style.display = 'none';
-    const cta = document.querySelector('.nav-cta');
-    if (cta) cta.style.display = '';
-    // Reset login card
-    document.getElementById('loginBtnWrap').style.display = 'block';
-    document.getElementById('loginLoading').style.display = 'none';
-    document.getElementById('loginUserCard').style.display = 'none';
-    showToast('success', 'Signed Out', 'You have been signed out successfully.');
-  });
+  sessionStorage.removeItem('bear_guser');
+  googleUser = null;
+  document.getElementById('navUser').style.display = 'none';
+  const cta = document.querySelector('.nav-cta');
+  if (cta) cta.style.display = '';
+  document.getElementById('loginBtnWrap').style.display = 'block';
+  document.getElementById('loginLoading').style.display = 'none';
+  document.getElementById('loginScreen').classList.remove('out');
 }
+
+// Check existing session
+(function checkSession() {
+  const saved = sessionStorage.getItem('bear_guser');
+  if (saved) {
+    try { googleUser = JSON.parse(saved); dismissLoginScreen(googleUser); }
+    catch(e) { sessionStorage.removeItem('bear_guser'); }
+  }
+})();
 
 // ══════════════════════════════════════════════════
 // FORM ANTI-SPAM PROTECTION
