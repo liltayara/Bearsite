@@ -365,7 +365,7 @@ body.login-open{overflow:hidden;touch-action:none}
 @media(max-width:480px){.sc{flex:0 0 230px;height:144px}.hero-ctas{flex-direction:column;align-items:center}}
 
 /* ── PAGE PRELOADER ── */
-#page-loader{position:fixed;inset:0;background:#000;z-index:99998;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .6s ease,visibility .6s ease}
+#page-loader{position:fixed;inset:0;background:#000;z-index:100000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;transition:opacity .5s ease,visibility .5s ease}
 #page-loader.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .pl-logo{display:flex;align-items:center;gap:10px;animation:pl-pulse 1.5s ease-in-out infinite}
 .pl-logo-box{width:44px;height:44px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:21px}
@@ -1280,9 +1280,8 @@ AOS.init({duration:700,once:true,offset:60});
 // ── Page Preloader ──
 window.addEventListener('load', () => {
   setTimeout(() => {
-    const loader = document.getElementById('page-loader');
-    if (loader) loader.classList.add('hidden');
-  }, 1200);
+    document.getElementById('page-loader').classList.add('hidden');
+  }, 1100);
 });
 
 // Pre-fill contact form from templates.html selection
@@ -1376,16 +1375,25 @@ function handleGoogleCredential(response) {
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
     googleUser = { name: payload.name, email: payload.email, picture: payload.picture };
     sessionStorage.setItem('bear_guser', JSON.stringify(googleUser));
-    // Show user card in loading
-    document.getElementById('loginBtnWrap').style.display = 'none';
-    const ll = document.getElementById('loginLoading');
-    ll.style.display = 'flex';
-    const lc = document.getElementById('loginUserCard');
-    document.getElementById('loginUserAv').src = googleUser.picture;
-    document.getElementById('loginUserName').textContent = googleUser.name;
-    document.getElementById('loginUserEmail').textContent = googleUser.email;
-    setTimeout(() => { lc.style.display = 'flex'; }, 200);
-    setTimeout(() => dismissLoginScreen(googleUser), 1500);
+
+    const loginScreenVisible = !document.getElementById('loginScreen').classList.contains('out');
+
+    if (loginScreenVisible) {
+      // Normal login flow — show loading card briefly
+      document.getElementById('loginBtnWrap').style.display = 'none';
+      const ll = document.getElementById('loginLoading');
+      ll.style.display = 'flex';
+      const lc = document.getElementById('loginUserCard');
+      document.getElementById('loginUserAv').src = googleUser.picture;
+      document.getElementById('loginUserName').textContent = googleUser.name;
+      document.getElementById('loginUserEmail').textContent = googleUser.email;
+      setTimeout(() => { lc.style.display = 'flex'; }, 150);
+      setTimeout(() => dismissLoginScreen(googleUser), 700);
+    } else {
+      // Switch account flow — update nav immediately, no login screen
+      dismissLoginScreen(googleUser);
+      showToast('success', 'Account Switched ✅', googleUser.name);
+    }
   } catch(e) {
     showToast('error', 'Sign-In Error', 'Could not read account info. Please try again.');
   }
@@ -1422,7 +1430,22 @@ function toggleNavDropdown(e) {
 function switchAccount(e) {
   e.stopPropagation();
   document.getElementById('navDropdown').classList.remove('open');
-  startGoogleSignIn();
+  // Reset login screen to fresh state
+  document.getElementById('loginBtnWrap').style.display = 'block';
+  document.getElementById('loginLoading').style.display = 'none';
+  document.getElementById('loginUserCard').style.display = 'none';
+  // Show login screen
+  document.getElementById('loginScreen').classList.remove('out');
+  document.body.classList.add('login-open');
+  // Re-init Google so user can pick different account
+  if (typeof google !== 'undefined') {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleCredential,
+      auto_select: false,
+      cancel_on_tap_outside: false
+    });
+  }
 }
 function openLogoutConfirm(e) {
   e.stopPropagation();
