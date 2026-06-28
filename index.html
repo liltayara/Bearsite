@@ -291,8 +291,11 @@ footer{background:var(--bg1);border-top:1px solid var(--bdr2);padding:80px 0 40p
 .btn-spin{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:bspin .7s linear infinite}
 @keyframes bspin{to{transform:rotate(360deg)}}
 /* ── GOOGLE LOGIN SCREEN ── */
-.login-screen{position:fixed;inset:0;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .6s ease,visibility .6s ease}
+.login-screen{position:fixed;inset:0;background:#000;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .6s ease,visibility .6s ease;overflow:hidden;touch-action:none}
 .login-screen.out{opacity:0;visibility:hidden;pointer-events:none}
+
+/* lock body scroll when login screen is visible */
+body.login-open{overflow:hidden;touch-action:none}
 .login-card{background:#09090F;border:1px solid rgba(255,255,255,.07);border-radius:24px;padding:44px 36px;width:100%;max-width:400px;text-align:center;box-shadow:0 40px 120px rgba(0,0,0,.9),0 0 0 1px rgba(108,99,255,.1)}
 .login-logo-wrap{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:32px}
 .login-logo-box{width:42px;height:42px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
@@ -318,10 +321,36 @@ footer{background:var(--bg1);border-top:1px solid var(--bdr2);padding:80px 0 40p
 .lu-name{font-weight:700;font-size:14px;color:#fff;font-family:'Outfit',sans-serif}
 .lu-email{font-size:12px;color:#64748b}
 /* user pill in nav */
-.nav-user{display:flex;align-items:center;gap:8px;background:rgba(108,99,255,.1);border:1px solid var(--bdr);border-radius:100px;padding:5px 14px 5px 6px;cursor:pointer;transition:.2s}
+.nav-user{display:flex;align-items:center;gap:8px;background:rgba(108,99,255,.1);border:1px solid var(--bdr);border-radius:100px;padding:5px 14px 5px 6px;cursor:pointer;transition:.2s;position:relative}
 .nav-user:hover{border-color:var(--ac)}
 .nav-user img{width:28px;height:28px;border-radius:50%}
 .nav-user span{font-size:14px;font-weight:600;color:var(--t1)}
+
+/* nav dropdown */
+.nav-dropdown{position:absolute;top:calc(100% + 10px);right:0;min-width:200px;background:#0e0e1a;border:1px solid var(--bdr);border-radius:14px;padding:8px;box-shadow:0 20px 60px rgba(0,0,0,.6);z-index:2000;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .2s ease;pointer-events:none}
+.nav-dropdown.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto}
+.nd-user{padding:10px 12px 14px;border-bottom:1px solid var(--bdr2);margin-bottom:6px}
+.nd-name{font-weight:700;font-size:14px;color:var(--t1);font-family:'Outfit',sans-serif}
+.nd-email{font-size:12px;color:var(--t2);margin-top:2px}
+.nd-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;cursor:pointer;font-size:14px;color:var(--t2);transition:.15s;border:none;background:none;width:100%;text-align:left;font-family:'Inter',sans-serif}
+.nd-item:hover{background:rgba(255,255,255,.05);color:var(--t1)}
+.nd-item.danger{color:#f87171}
+.nd-item.danger:hover{background:rgba(239,68,68,.1);color:#f87171}
+
+/* logout confirm modal */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:.25s}
+.confirm-overlay.open{opacity:1;visibility:visible}
+.confirm-modal{background:#0e0e1a;border:1px solid var(--bdr);border-radius:20px;padding:32px 28px;max-width:340px;width:100%;text-align:center;transform:scale(.95);transition:.25s}
+.confirm-overlay.open .confirm-modal{transform:scale(1)}
+.confirm-ic{width:56px;height:56px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px;color:#f87171}
+.confirm-title{font-family:'Outfit',sans-serif;font-size:20px;font-weight:700;margin-bottom:8px}
+.confirm-sub{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:24px}
+.confirm-btns{display:flex;gap:10px}
+.confirm-btns button{flex:1;padding:12px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:.2s}
+.confirm-cancel{background:rgba(255,255,255,.06);color:var(--t1)}
+.confirm-cancel:hover{background:rgba(255,255,255,.1)}
+.confirm-logout{background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff}
+.confirm-logout:hover{opacity:.9}
 /* spam shield badge on form */
 .form-shield{display:flex;align-items:center;gap:8px;font-size:12px;color:#334155;margin-bottom:16px}
 .form-shield i{color:#22c55e;font-size:13px}
@@ -411,10 +440,18 @@ footer{background:var(--bg1);border-top:1px solid var(--bdr2);padding:80px 0 40p
     <li><a href="#contact">Contact</a></li>
   </ul>
   <a href="#contact" class="btn btn-p nav-cta">Get Started <i class="fa-solid fa-arrow-right"></i></a>
-  <div class="nav-user" id="navUser" style="display:none" onclick="signOutGoogle()">
+  <div class="nav-user" id="navUser" style="display:none" onclick="toggleNavDropdown(event)">
     <img id="navUserAv" src="" alt="">
     <span id="navUserName"></span>
     <i class="fa-solid fa-chevron-down" style="font-size:11px;color:var(--t2)"></i>
+    <div class="nav-dropdown" id="navDropdown">
+      <div class="nd-user">
+        <div class="nd-name" id="ndName"></div>
+        <div class="nd-email" id="ndEmail"></div>
+      </div>
+      <button class="nd-item" onclick="switchAccount(event)"><i class="fa-brands fa-google" style="color:var(--ac)"></i> Switch Account</button>
+      <button class="nd-item danger" onclick="openLogoutConfirm(event)"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
+    </div>
   </div>
   <div class="ham" id="ham"><span></span><span></span><span></span></div>
 </nav>
@@ -1211,6 +1248,19 @@ footer{background:var(--bg1);border-top:1px solid var(--bdr2);padding:80px 0 40p
 <!-- ══ SCROLL TOP ══ -->
 <button class="top-btn" id="topBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="fa-solid fa-chevron-up"></i></button>
 
+<!-- Logout Confirm Modal -->
+<div class="confirm-overlay" id="logoutConfirm">
+  <div class="confirm-modal">
+    <div class="confirm-ic"><i class="fa-solid fa-right-from-bracket"></i></div>
+    <div class="confirm-title">Sign Out?</div>
+    <p class="confirm-sub">You'll need to sign in again with Google to access Bear.</p>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="closeLogoutConfirm()">Cancel</button>
+      <button class="confirm-logout" onclick="confirmSignOut()">Sign Out</button>
+    </div>
+  </div>
+</div>
+
 <!-- Toast -->
 <div class="tg-toast" id="tgToast">
   <div class="tg-toast-ic" id="tgToastIc"><i class="fa-solid fa-check"></i></div>
@@ -1343,9 +1393,12 @@ function handleGoogleCredential(response) {
 
 function dismissLoginScreen(user) {
   document.getElementById('loginScreen').classList.add('out');
+  document.body.classList.remove('login-open');
   if (user) {
     document.getElementById('navUserAv').src = user.picture || '';
     document.getElementById('navUserName').textContent = user.name.split(' ')[0];
+    document.getElementById('ndName').textContent = user.name;
+    document.getElementById('ndEmail').textContent = user.email;
     document.getElementById('navUser').style.display = 'flex';
     const cta = document.querySelector('.nav-cta');
     if (cta) cta.style.display = 'none';
@@ -1361,6 +1414,33 @@ function dismissLoginScreen(user) {
   }
 }
 
+// Toggle nav dropdown
+function toggleNavDropdown(e) {
+  e.stopPropagation();
+  document.getElementById('navDropdown').classList.toggle('open');
+}
+function switchAccount(e) {
+  e.stopPropagation();
+  document.getElementById('navDropdown').classList.remove('open');
+  startGoogleSignIn();
+}
+function openLogoutConfirm(e) {
+  e.stopPropagation();
+  document.getElementById('navDropdown').classList.remove('open');
+  document.getElementById('logoutConfirm').classList.add('open');
+}
+function closeLogoutConfirm() {
+  document.getElementById('logoutConfirm').classList.remove('open');
+}
+function confirmSignOut() {
+  closeLogoutConfirm();
+  signOutGoogle();
+}
+// Close dropdown when clicking outside
+document.addEventListener('click', () => {
+  document.getElementById('navDropdown')?.classList.remove('open');
+});
+
 function signOutGoogle() {
   sessionStorage.removeItem('bear_guser');
   googleUser = null;
@@ -1370,6 +1450,7 @@ function signOutGoogle() {
   document.getElementById('loginBtnWrap').style.display = 'block';
   document.getElementById('loginLoading').style.display = 'none';
   document.getElementById('loginScreen').classList.remove('out');
+  document.body.classList.add('login-open');
 }
 
 // Check existing session
@@ -1377,7 +1458,9 @@ function signOutGoogle() {
   const saved = sessionStorage.getItem('bear_guser');
   if (saved) {
     try { googleUser = JSON.parse(saved); dismissLoginScreen(googleUser); }
-    catch(e) { sessionStorage.removeItem('bear_guser'); }
+    catch(e) { sessionStorage.removeItem('bear_guser'); document.body.classList.add('login-open'); }
+  } else {
+    document.body.classList.add('login-open');
   }
 })();
 
