@@ -438,7 +438,7 @@ body.login-open{overflow:hidden;touch-action:none}
     <li><a href="#faq">FAQ</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="#contact" class="btn btn-p nav-cta">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+  <a href="order.html" class="btn btn-p nav-cta">Get Started <i class="fa-solid fa-arrow-right"></i></a>
   <div class="nav-user" id="navUser" style="display:none" onclick="toggleNavDropdown(event)">
     <img id="navUserAv" src="" alt="">
     <span id="navUserName"></span>
@@ -476,7 +476,7 @@ body.login-open{overflow:hidden;touch-action:none}
       <p class="hero-ar">يمكننا مساعدتك في انشاء المواقع الشخصيه</p>
       <div class="hero-ctas">
         <a href="#showcase" class="btn btn-p btn-lg"><i class="fa-solid fa-eye"></i> View Showcase</a>
-        <a href="#contact" class="btn btn-o btn-lg"><i class="fa-solid fa-paper-plane"></i> Start Your Project</a>
+        <a href="order.html" class="btn btn-o btn-lg"><i class="fa-solid fa-file-pen"></i> Start Your Project</a>
       </div>
     </div>
   </div>
@@ -1002,124 +1002,52 @@ body.login-open{overflow:hidden;touch-action:none}
 <!-- ══ CONTACT ══ -->
 <section class="sec" id="contact">
   <div class="wrap">
-    <div data-aos="fade-up">
+    <div data-aos="fade-up" style="text-align:center;max-width:700px;margin:0 auto">
       <div class="ey">Get In Touch</div>
-      <h2 class="sec-h">Start Your Project Today</h2>
-      <p class="sec-d">Tell us about your vision and we'll get back to you soon.</p>
+      <h2 class="sec-h">Ready to Start<br>Your <span class="g-text">Project?</span></h2>
+      <p class="sec-d" style="margin:0 auto 48px">Fill out our detailed project brief — we'll craft your perfect website from your vision, your style, and your goals.</p>
     </div>
-    <div class="con-grid">
-      <div class="con-info" data-aos="fade-up" data-aos-delay="50">
-        <h3>Let's Build Something <span class="g-text">Extraordinary</span></h3>
-        <p>Whether you're a content creator, developer, artist, or business owner — your personal website is your most powerful tool. Let's make it unforgettable.</p>
-        <div class="c-item">
-          <div class="c-ic"><i class="fa-solid fa-envelope"></i></div>
-          <div class="c-itxt"><span>Email</span><strong>lil.tayara@gmail.com</strong></div>
-        </div>
-        <a href="https://wa.me/971509012443" target="_blank" rel="noopener" class="c-item" style="text-decoration:none;color:inherit">
-          <div class="c-ic"><i class="fa-brands fa-whatsapp"></i></div>
-          <div class="c-itxt"><span>WhatsApp</span><strong>+971 50 901 2443</strong></div>
-        </a>
-        <a href="https://t.me/lil_tayara" target="_blank" rel="noopener" class="c-item" style="text-decoration:none;color:inherit">
-          <div class="c-ic"><i class="fa-brands fa-telegram"></i></div>
-          <div class="c-itxt"><span>Telegram</span><strong>@lil_tayara</strong></div>
-        </a>
-        <div class="c-item">
-          <div class="c-ic"><i class="fa-brands fa-telegram"></i></div>
-          <div class="c-itxt"><span>Response Time</span><strong>Fast Response</strong></div>
+
+    <!-- Contact cards row -->
+    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:60px" data-aos="fade-up" data-aos-delay="80">
+      <div class="c-item" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px">
+        <div class="c-ic"><i class="fa-solid fa-envelope"></i></div>
+        <div class="c-itxt"><span>Email</span><strong>lil.tayara@gmail.com</strong></div>
+      </div>
+      <a href="https://wa.me/971509012443" target="_blank" rel="noopener" class="c-item" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px;text-decoration:none;color:inherit">
+        <div class="c-ic" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.2);color:#22c55e"><i class="fa-brands fa-whatsapp"></i></div>
+        <div class="c-itxt"><span>WhatsApp</span><strong>+971 50 901 2443</strong></div>
+      </a>
+      <a href="https://t.me/lil_tayara" target="_blank" rel="noopener" class="c-item" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px;text-decoration:none;color:inherit">
+        <div class="c-ic" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.2);color:#38bdf8"><i class="fa-brands fa-telegram"></i></div>
+        <div class="c-itxt"><span>Telegram</span><strong>@lil_tayara</strong></div>
+      </a>
+    </div>
+
+    <!-- Big CTA -->
+    <div data-aos="fade-up" data-aos-delay="150" style="text-align:center">
+      <div style="background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(167,139,250,.06));border:1px solid var(--bdr);border-radius:28px;padding:64px 40px;position:relative;overflow:hidden">
+        <!-- glow blob -->
+        <div style="position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:400px;height:300px;background:radial-gradient(ellipse,rgba(108,99,255,.18),transparent 70%);pointer-events:none"></div>
+        <div style="position:relative;z-index:1">
+          <div style="width:76px;height:76px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:30px;box-shadow:0 12px 40px var(--glow)">
+            <i class="fa-solid fa-file-pen" style="color:#fff"></i>
+          </div>
+          <h3 style="font-family:'Outfit',sans-serif;font-size:clamp(24px,3vw,38px);font-weight:800;margin-bottom:14px;letter-spacing:-.5px">Fill Your Project Brief</h3>
+          <p style="color:var(--t2);font-size:17px;max-width:480px;margin:0 auto 36px;line-height:1.8">Answer a few smart questions about your vision, style & goals — and we'll build something extraordinary for you.</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:32px">
+            <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);background:rgba(255,255,255,.05);border:1px solid var(--bdr2);border-radius:100px;padding:6px 14px"><i class="fa-solid fa-clock" style="color:var(--ac)"></i> Takes ~3 minutes</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);background:rgba(255,255,255,.05);border:1px solid var(--bdr2);border-radius:100px;padding:6px 14px"><i class="fa-solid fa-shield-halved" style="color:#22c55e"></i> Spam protected</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2);background:rgba(255,255,255,.05);border:1px solid var(--bdr2);border-radius:100px;padding:6px 14px"><i class="fa-solid fa-bolt" style="color:#f59e0b"></i> Reply within 24h</span>
+          </div>
+          <a href="order.html" class="btn btn-p btn-lg" style="font-size:18px;padding:18px 48px;border-radius:14px;box-shadow:0 8px 40px var(--glow)">
+            <i class="fa-solid fa-file-pen"></i> Start Your Project Brief
+          </a>
+          <p style="margin-top:20px;font-size:13px;color:var(--t3)">Or reach us directly via <a href="https://wa.me/971509012443" style="color:var(--ac);text-decoration:none">WhatsApp</a> · <a href="https://t.me/lil_tayara" style="color:var(--ac);text-decoration:none">Telegram</a></p>
         </div>
       </div>
-      <div data-aos="fade-up" data-aos-delay="150">
-        <form id="contactForm">
-
-        <!-- Telegram Login Widget -->
-        <div class="tg-login-card" id="tgLoginCard">
-          <div class="tg-login-header">
-            <i class="fa-brands fa-telegram" style="color:#229ED9;font-size:22px"></i>
-            <div>
-              <div class="tg-login-title">Quick Fill with Telegram</div>
-              <div class="tg-login-sub">Sign in to auto-fill your name instantly</div>
-            </div>
-          </div>
-          <div id="tg-widget-wrap">
-            <div id="tg-localhost-note" style="display:none;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:9px;padding:10px 14px;font-size:13px;color:#fbbf24">
-              <i class="fa-solid fa-triangle-exclamation" style="margin-right:6px"></i>
-              Telegram login works only on the live site, not on localhost.
-            </div>
-            <script async
-              src="https://telegram.org/js/telegram-widget.js?22"
-              data-telegram-login="bearsite_bot"
-              data-size="large"
-              data-radius="10"
-              data-userpic="true"
-              data-onauth="onTelegramAuth(user)"
-              data-request-access="write">
-            </script>
-          </div>
-          <div class="tg-logged" id="tgLogged" style="display:none">
-            <img id="tgAvatar" src="" alt="" class="tg-av-img">
-            <div>
-              <div class="tg-logged-name" id="tgLoggedName"></div>
-              <div class="tg-logged-user" id="tgLoggedUser"></div>
-            </div>
-            <button type="button" class="tg-logout" onclick="tgLogout()"><i class="fa-solid fa-right-from-bracket"></i></button>
-          </div>
-        </div>
-
-        <!-- Honeypot — بوتات تملأه لكن البشر لا يرونه -->
-        <input type="text" id="hp-field" name="website_url" style="position:absolute;left:-9999px;opacity:0;height:0;width:0" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-        <div class="form-shield">
-          <i class="fa-solid fa-shield-halved" style="color:#22c55e;flex-shrink:0"></i>
-          <span>Protected by Bear Anti-Spam — Max 3 messages per hour</span>
-        </div>
-
-        <div class="fg f-row">
-          <div><label>First Name</label><input id="cf-fname" type="text" name="first_name" class="fc" placeholder="John"></div>
-          <div><label>Last Name</label><input id="cf-lname" type="text" name="last_name" class="fc" placeholder="Doe"></div>
-        </div>
-        <div class="fg">
-          <label>Email Address</label>
-          <input id="cf-email" type="email" name="email" class="fc" placeholder="john@example.com">
-        </div>
-        <div class="fg">
-          <label>Website Type</label>
-          <select id="websiteType" name="website_type" class="fc">
-            <option value="" disabled selected>Select website type...</option>
-            <option>Personal Portfolio</option>
-            <option>Creator Landing Page</option>
-            <option>Business Profile</option>
-            <option>Artist Showcase</option>
-            <option>Personal Blog</option>
-            <option>Digital Store</option>
-            <option>CV / Resume Website</option>
-            <option>University / Academic Project</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>Project Budget</label>
-          <select id="cf-budget" name="budget" class="fc">
-            <option value="" disabled selected>Select budget range...</option>
-            <option>Starter — $10</option>
-            <option>Professional — $30</option>
-            <option>Premium — $50</option>
-            <option>Custom project</option>
-          </select>
-        </div>
-        <div class="fg">
-          <label>Tell Us About Your Vision</label>
-          <textarea id="messageField" name="message" class="fc" placeholder="Describe your website, your style preferences, and any inspiration links..."></textarea>
-        </div>
-        <div class="cf-err" id="cf-error">
-          <i class="fa-solid fa-triangle-exclamation"></i>
-          <span id="cf-error-msg">Please fill in all fields.</span>
-        </div>
-        <button type="button" id="sendBtn" class="btn btn-p btn-lg" style="width:100%;justify-content:center" onclick="handleSend()">
-          <i class="fa-solid fa-paper-plane"></i> Send Project Brief
-        </button>
-        </form>
-      </div>
     </div>
+
   </div>
 </section>
 
@@ -1130,7 +1058,7 @@ body.login-open{overflow:hidden;touch-action:none}
       <h2>Ready to Own the Web?</h2>
       <p>Join creators and professionals who trust Bear to represent them online.</p>
       <div class="cta-btns">
-        <a href="#contact" class="btn btn-p btn-lg"><i class="fa-solid fa-paper-plane"></i> Start Your Project</a>
+        <a href="order.html" class="btn btn-p btn-lg"><i class="fa-solid fa-file-pen"></i> Start Your Project Brief</a>
         <a href="templates.html" class="btn btn-o btn-lg"><i class="fa-solid fa-eye"></i> View More Work</a>
       </div>
     </div>
@@ -1339,6 +1267,7 @@ function handleGoogleCredential(response) {
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
     googleUser = { name: payload.name, email: payload.email, picture: payload.picture };
     sessionStorage.setItem('bear_guser', JSON.stringify(googleUser));
+    try { localStorage.setItem('bear_guser_persist', JSON.stringify(googleUser)); } catch(e){}
 
     const loginScreenVisible = !document.getElementById('loginScreen').classList.contains('out');
 
@@ -1441,209 +1370,14 @@ function signOutGoogle() {
 (function checkSession() {
   const saved = sessionStorage.getItem('bear_guser');
   if (saved) {
-    try { googleUser = JSON.parse(saved); dismissLoginScreen(googleUser); }
+    try { googleUser = JSON.parse(saved); localStorage.setItem('bear_guser_persist', saved); dismissLoginScreen(googleUser); }
     catch(e) { sessionStorage.removeItem('bear_guser'); document.body.classList.add('login-open'); }
   } else {
     document.body.classList.add('login-open');
   }
 })();
 
-// ══════════════════════════════════════════════════
-// FORM ANTI-SPAM PROTECTION
-// ══════════════════════════════════════════════════
-const SPAM = { maxPerHour:3, cooldownMs:60000, minFillSec:6, key:'bear_subs' };
-let formOpenedAt = Date.now();
-['cf-fname','cf-lname','cf-email','messageField'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener('focus', () => { formOpenedAt = Date.now(); }, { once: true });
-});
-
-function spamCheck() {
-  // 1. Honeypot check
-  const hp = document.getElementById('hp-field');
-  if (hp && hp.value.trim()) return { ok:false, msg:'Bot detected. Submission blocked.' };
-  // 2. Fill time
-  if ((Date.now() - formOpenedAt) / 1000 < SPAM.minFillSec)
-    return { ok:false, msg:'Please take a moment to fill the form carefully.' };
-  // 3. Rate limit
-  const now = Date.now();
-  let log = [];
-  try { log = JSON.parse(localStorage.getItem(SPAM.key)||'[]'); } catch(e){}
-  log = log.filter(t => now - t < 3600000);
-  if (log.length >= SPAM.maxPerHour)
-    return { ok:false, msg:`Limit reached: max ${SPAM.maxPerHour} messages per hour. Try again later.` };
-  const last = log[log.length-1];
-  if (last) {
-    const wait = Math.ceil((SPAM.cooldownMs - (now - last)) / 1000);
-    if (wait > 0) return { ok:false, msg:`Please wait ${wait} seconds before sending again.` };
-  }
-  return { ok:true, log, now };
-}
-function recordSend(log, now) {
-  log.push(now);
-  try { localStorage.setItem(SPAM.key, JSON.stringify(log)); } catch(e){}
-}
-
-// ══════════════════════════════════════════
-// TELEGRAM CONFIG
-// ══════════════════════════════════════════
-const TG_CONFIG = {
-  BOT_TOKEN: '8878440371:AAHwCWtF0rrX0MwPhrRhBL3QV5l8DNm5dGY',
-  CHAT_ID:   '6777638556'
-};
-
-// ── Telegram Login Widget ──
-let tgUserData = null;
-
-// Hide widget on localhost, show note instead
-if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-  document.addEventListener('DOMContentLoaded', () => {
-    const wrap = document.getElementById('tg-widget-wrap');
-    if (wrap) {
-      wrap.querySelector('script')?.remove();
-      document.getElementById('tg-localhost-note').style.display = 'block';
-    }
-  });
-}
-
-function onTelegramAuth(user) {
-  tgUserData = user;
-  if (user.first_name) document.getElementById('cf-fname').value = user.first_name;
-  if (user.last_name)  document.getElementById('cf-lname').value = user.last_name;
-  document.getElementById('tg-widget-wrap').style.display = 'none';
-  const lg = document.getElementById('tgLogged');
-  lg.style.display = 'flex';
-  document.getElementById('tgLoggedName').textContent = [user.first_name, user.last_name].filter(Boolean).join(' ');
-  document.getElementById('tgLoggedUser').textContent = user.username ? '@' + user.username : 'Telegram #' + user.id;
-  const av = document.getElementById('tgAvatar');
-  av.src = user.photo_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.first_name)}&background=229ED9&color=fff`;
-  showToast('success', 'Connected with Telegram ✅', (user.username ? '@' + user.username : user.first_name) + ' — form auto-filled!');
-}
-
-function tgLogout() {
-  tgUserData = null;
-  document.getElementById('tg-widget-wrap').style.display = 'flex';
-  document.getElementById('tgLogged').style.display = 'none';
-  document.getElementById('cf-fname').value = '';
-  document.getElementById('cf-lname').value = '';
-}
-
-// ── Toast ──
-let _toastTimer = null;
-function showToast(type, title, sub) {
-  const t = document.getElementById('tgToast');
-  const ic = document.getElementById('tgToastIc');
-  document.getElementById('tgToastTitle').textContent = title;
-  document.getElementById('tgToastSub').textContent = sub;
-  t.className = 'tg-toast ' + type;
-  ic.innerHTML = type === 'success'
-    ? '<i class="fa-solid fa-circle-check"></i>'
-    : '<i class="fa-solid fa-triangle-exclamation"></i>';
-  void t.offsetWidth;
-  t.classList.add('show');
-  if (_toastTimer) clearTimeout(_toastTimer);
-  _toastTimer = setTimeout(hideToast, 6000);
-}
-function hideToast() {
-  document.getElementById('tgToast').classList.remove('show');
-}
-
-// ── Inline error ──
-function showError(msg) {
-  const el = document.getElementById('cf-error');
-  document.getElementById('cf-error-msg').textContent = msg;
-  el.style.display = 'flex';
-  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-function clearError() {
-  document.getElementById('cf-error').style.display = 'none';
-}
-
-// ── Build Telegram message ──
-function buildMsg(d) {
-  const now = new Date();
-  const date = now.toLocaleDateString('en-GB', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
-  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  let tgLine = '❌ Not signed in via Telegram';
-  if (tgUserData) {
-    const n = [tgUserData.first_name, tgUserData.last_name].filter(Boolean).join(' ');
-    const u = tgUserData.username ? `@${tgUserData.username}` : `ID: ${tgUserData.id}`;
-    tgLine = `✅ ${n} — ${u}`;
-  }
-  return `🌐 *Bear — New Project Brief*
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-👤 *Name:* ${d.name}
-📧 *Email:* ${d.email}
-💬 *Telegram:* ${tgLine}
-🖥️ *Website Type:* ${d.wtype}
-💰 *Budget:* ${d.budget}
-
-📝 *Vision:*
-${d.msg || '_No description_'}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-🕐 *Sent:* ${date} — ${time}
-🔗 *Source:* Bear`;
-}
-
-// ── Send ──
-async function handleSend() {
-  clearError();
-
-  // ── Anti-spam check ──
-  const spam = spamCheck();
-  if (!spam.ok) return showError(spam.msg);
-
-  const fname  = document.getElementById('cf-fname').value.trim();
-  const lname  = document.getElementById('cf-lname').value.trim();
-  const email  = document.getElementById('cf-email').value.trim();
-  const wtype  = document.getElementById('websiteType').value;
-  const budget = document.getElementById('cf-budget').value;
-  const msg    = document.getElementById('messageField').value.trim();
-
-  if (!fname || !lname)  return showError('Please enter your full name.');
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Please enter a valid email address.');
-  if (!wtype)            return showError('Please select a website type.');
-  if (!budget)           return showError('Please select a budget range.');
-  if (!msg)              return showError('Please describe your vision.');
-
-  const btn = document.getElementById('sendBtn');
-  const orig = btn.innerHTML;
-  btn.innerHTML = '<div class="btn-spin"></div> Sending...';
-  btn.disabled = true;
-
-  try {
-    const res = await fetch(
-      `https://api.telegram.org/bot${TG_CONFIG.BOT_TOKEN}/sendMessage`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TG_CONFIG.CHAT_ID,
-          text: buildMsg({ name: `${fname} ${lname}`, email, wtype, budget, msg }),
-          parse_mode: 'Markdown'
-        })
-      }
-    );
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.description || 'Telegram error');
-
-    btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> Sent Successfully!';
-    btn.style.background = 'linear-gradient(135deg,#16a34a,#22c55e)';
-    showToast('success', 'Message Received! ✅', "We'll reply within 24 hours via Telegram or Email.");
-    recordSend(spam.log, spam.now);
-    document.getElementById('contactForm').reset();
-    tgLogout();
-    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.disabled = false; }, 4000);
-
-  } catch (err) {
-    btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — Try WhatsApp';
-    btn.style.background = 'linear-gradient(135deg,#dc2626,#ef4444)';
-    showToast('error', 'Send Failed', 'Check your connection or contact us via WhatsApp.');
-    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.disabled = false; }, 4000);
-  }
-}
+// No form on this page — moved to order.html
 </script>
 </body>
 </html>
