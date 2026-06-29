@@ -233,7 +233,11 @@ a:focus,a:focus-visible,button:focus,button:focus-visible{outline:none}
 .con-info h3{font-size:26px;font-weight:700;margin-bottom:14px}
 .con-info p{color:var(--t2);font-size:15px;line-height:1.8;margin-bottom:30px}
 .c-item{display:flex;align-items:center;gap:14px;margin-bottom:18px}
-.c-ic{width:44px;height:44px;background:rgba(108,99,255,.1);border:1px solid var(--bdr);border-radius:11px;display:flex;align-items:center;justify-content:center;color:var(--ac);font-size:17px;flex-shrink:0}
+.c-ic{width:44px;height:44px;background:rgba(108,99,255,.1);border:1px solid var(--bdr);border-radius:11px;display:flex;align-items:center;justify-content:center;color:var(--ac);font-size:17px;flex-shrink:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
+.c-shell-card{display:flex;align-items:center;justify-content:center;opacity:0;will-change:transform,opacity}
+.c-shell-card.bg-clear{background:transparent!important;border-color:transparent!important;box-shadow:none!important;padding:14px!important;min-width:auto!important;max-width:none!important;flex:0 0 auto!important}
+.c-ic-btn{display:flex;align-items:center;justify-content:center;text-decoration:none;border-radius:14px;-webkit-tap-highlight-color:transparent}
+.c-ic-btn:hover .c-ic,.c-ic-btn:active .c-ic{transform:scale(1.2);box-shadow:0 6px 28px rgba(108,99,255,.4)}
 .c-itxt span{display:block;font-size:12px;color:var(--t2);margin-bottom:2px}
 .c-itxt strong{font-size:15px}
 .fg{margin-bottom:20px}
@@ -1009,16 +1013,22 @@ body.login-open{overflow:hidden;touch-action:none}
     </div>
 
     <!-- Contact cards row -->
-    <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:60px" data-aos="fade-up" data-aos-delay="80">
-      <div class="c-item" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px">
-        <div class="c-ic"><i class="fa-solid fa-envelope"></i></div>
+    <div id="contact-shuffle-wrap" style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:60px">
+      <div class="c-shell-card" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px">
+        <a href="mailto:lil.tayara@gmail.com" class="c-ic-btn">
+          <div class="c-ic"><i class="fa-solid fa-envelope"></i></div>
+        </a>
       </div>
-      <a href="https://wa.me/971509012443" target="_blank" rel="noopener" class="c-item" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px;text-decoration:none;color:inherit">
-        <div class="c-ic" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.2);color:#22c55e"><i class="fa-brands fa-whatsapp"></i></div>
-      </a>
-      <a href="https://t.me/lil_tayara" target="_blank" rel="noopener" class="c-item" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px;text-decoration:none;color:inherit">
-        <div class="c-ic" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.2);color:#38bdf8"><i class="fa-brands fa-telegram"></i></div>
-      </a>
+      <div class="c-shell-card" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px">
+        <a href="https://wa.me/971509012443" target="_blank" rel="noopener" class="c-ic-btn">
+          <div class="c-ic" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.2);color:#22c55e"><i class="fa-brands fa-whatsapp"></i></div>
+        </a>
+      </div>
+      <div class="c-shell-card" style="background:var(--card);border:1px solid var(--bdr2);border-radius:16px;padding:22px 28px;flex:1;min-width:200px;max-width:260px">
+        <a href="https://t.me/lil_tayara" target="_blank" rel="noopener" class="c-ic-btn">
+          <div class="c-ic" style="background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.2);color:#38bdf8"><i class="fa-brands fa-telegram"></i></div>
+        </a>
+      </div>
     </div>
 
     <!-- Big CTA -->
@@ -1375,6 +1385,70 @@ function signOutGoogle() {
 })();
 
 // No form on this page — moved to order.html
+
+/* ── CONTACT SHELL GAME ANIMATION ── */
+(function initContactShuffle() {
+  function run() {
+    const wrap = document.getElementById('contact-shuffle-wrap');
+    if (!wrap) return;
+    const cards = Array.from(wrap.querySelectorAll('.c-shell-card'));
+    if (cards.length < 3) return;
+    const [c1, c2, c3] = cards;
+    const EB = 'cubic-bezier(.34,1.56,.64,1)';
+    const ES = 'cubic-bezier(.25,.46,.45,.94)';
+
+    // reset
+    cards.forEach(c => {
+      c.style.transition = 'none';
+      c.style.opacity = '0';
+      c.style.transform = 'translateY(22px)';
+      c.classList.remove('bg-clear');
+    });
+
+    // Phase 1 — stagger appear
+    setTimeout(() => { c1.style.transition=`opacity .5s ${ES},transform .5s ${ES}`; c1.style.opacity='1'; c1.style.transform='translateY(0)'; }, 120);
+    setTimeout(() => { c2.style.transition=`opacity .5s ${ES},transform .5s ${ES}`; c2.style.opacity='1'; c2.style.transform='translateY(0)'; }, 300);
+    setTimeout(() => { c3.style.transition=`opacity .5s ${ES},transform .5s ${ES}`; c3.style.opacity='1'; c3.style.transform='translateY(0)'; }, 480);
+
+    // Phase 2 — swap c1 ↔ c3
+    setTimeout(() => {
+      const r1 = c1.getBoundingClientRect();
+      const r3 = c3.getBoundingClientRect();
+      const dx = r3.left - r1.left;
+      const dy = r3.top  - r1.top;
+      c1.style.transition = `transform .72s ${EB}`;
+      c2.style.transition = `transform .5s ${ES}`;
+      c3.style.transition = `transform .72s ${EB}`;
+      c1.style.transform = `translate(${dx}px,${dy}px)`;
+      c3.style.transform = `translate(${-dx}px,${-dy}px)`;
+      c2.style.transform = 'scale(.88)';
+
+      // Phase 3 — snap back
+      setTimeout(() => {
+        c1.style.transition = `transform .65s ${EB}`;
+        c2.style.transition = `transform .5s ${EB}`;
+        c3.style.transition = `transform .65s ${EB}`;
+        c1.style.transform = 'translateY(0)';
+        c2.style.transform = 'scale(1)';
+        c3.style.transform = 'translateY(0)';
+
+        // Phase 4 — dissolve card backgrounds
+        setTimeout(() => {
+          cards.forEach(c => {
+            c.style.transition = 'background .7s ease,border-color .7s ease,padding .6s ease,min-width .6s ease,flex .6s ease';
+            c.classList.add('bg-clear');
+          });
+        }, 720);
+      }, 880);
+    }, 1450);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
 </script>
 </body>
 </html>
