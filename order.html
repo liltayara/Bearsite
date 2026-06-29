@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bear | Start Your Project Brief</title>
+<meta name="description" content="Fill out your project brief and let Bear build your perfect personal website.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.lordicon.com/lordicon.js"></script>
+
+<style>
+:root{
+  --bg0:#000000;--bg1:#060608;--bg2:#0A0A12;--card:#0C0C1A;
+  --ac:#6C63FF;--ac2:#a78bfa;--gold:#F59E0B;
+  --t1:#F8FAFC;--t2:#94A3B8;--t3:#475569;
+  --bdr:rgba(108,99,255,.18);--bdr2:rgba(255,255,255,.07);
+  --glow:rgba(108,99,255,.28);--r:12px;--r2:20px;
+  --green:#22c55e;--red:#ef4444;--blue:#38bdf8;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+*:focus:not(:focus-visible){outline:none !important;box-shadow:none !important}
+html{scroll-behavior:smooth}
+body{background:var(--bg0);color:var(--t1);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;min-height:100vh}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg0)}::-webkit-scrollbar-thumb{background:var(--ac);border-radius:3px}
+h1,h2,h3,h4,h5{font-family:'Outfit',sans-serif;line-height:1.15}
+.g-text{background:linear-gradient(135deg,#fff 0%,var(--ac) 50%,var(--ac2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;outline:none;font-family:'Inter',sans-serif;-webkit-tap-highlight-color:transparent}
+button:focus{outline:none}
+button:focus:not(:focus-visible){outline:none;box-shadow:none}
+input,select,textarea{outline:none;font-family:'Inter',sans-serif}
+label{-webkit-tap-highlight-color:transparent}
+label:focus{outline:none}
+.choice-card:focus,.chip:focus,.swatch:focus{outline:none}
+*:focus:not(:focus-visible){outline:none}
+
+/* ─── BACKGROUND ─── */
+.page-bg{position:fixed;inset:0;pointer-events:none;z-index:0}
+.page-bg::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(108,99,255,.15),transparent 65%)}
+.page-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(108,99,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(108,99,255,.025) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse at 50% 0%,black 20%,transparent 70%)}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.orb1{width:500px;height:500px;background:rgba(108,99,255,.07);top:-200px;right:-100px}
+.orb2{width:400px;height:400px;background:rgba(245,158,11,.05);bottom:-100px;left:-100px}
+
+/* ─── NAV ─── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:rgba(7,7,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bdr2)}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-box{width:36px;height:36px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px}
+.logo-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;color:var(--t1)}
+.back-btn{display:flex;align-items:center;gap:8px;color:var(--t2);font-size:14px;font-weight:500;transition:color .2s;padding:8px 16px;border-radius:9px;border:1px solid var(--bdr2);background:transparent;transition:all .2s}
+.back-btn:hover{color:var(--t1);border-color:var(--bdr);background:rgba(255,255,255,.04)}
+
+/* ─── LAYOUT ─── */
+.page-wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:100px 24px 80px}
+
+/* ─── HEADER ─── */
+.form-header{text-align:center;margin-bottom:56px}
+.form-eyebrow{font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--ac);margin-bottom:14px}
+.form-title{font-size:clamp(32px,5vw,58px);font-weight:900;letter-spacing:-2px;margin-bottom:16px}
+.form-sub{font-size:17px;color:var(--t2);max-width:520px;margin:0 auto 32px;line-height:1.8}
+.form-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.badge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);background:rgba(255,255,255,.04);border:1px solid var(--bdr2);border-radius:100px;padding:6px 14px}
+.badge i{font-size:11px}
+
+/* ─── STEPS PROGRESS ─── */
+.steps-bar{display:flex;align-items:center;gap:0;margin-bottom:52px;position:relative}
+.step-item{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;cursor:pointer;-webkit-tap-highlight-color:transparent;outline:none}
+.step-item:focus{outline:none}
+.step-item:not(:last-child)::after{content:'';position:absolute;top:19px;left:50%;width:100%;height:1px;background:var(--bdr2);z-index:0;transition:.3s}
+.step-item.done:not(:last-child)::after{background:var(--ac)}
+.step-circle{width:38px;height:38px;border-radius:50%;border:2px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--t3);background:var(--bg1);position:relative;z-index:1;transition:all .3s;font-family:'Outfit',sans-serif}
+.step-item.active .step-circle{border-color:var(--ac);color:var(--ac);background:rgba(108,99,255,.12);box-shadow:0 0 0 4px rgba(108,99,255,.15)}
+.step-item.done .step-circle{border-color:var(--green);background:rgba(34,197,94,.12);color:var(--green)}
+.step-label{font-size:11px;font-weight:600;color:var(--t3);margin-top:8px;letter-spacing:.5px;text-align:center;transition:.3s}
+.step-item.active .step-label{color:var(--ac)}
+.step-item.done .step-label{color:var(--green)}
+
+/* ─── SECTIONS (steps) ─── */
+.form-step{display:none}
+.form-step.active{display:block;animation:stepIn .4s ease}
+@keyframes stepIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── SECTION CARD ─── */
+.sec-card{background:var(--card);border:1px solid var(--bdr2);border-radius:24px;padding:40px 40px;margin-bottom:24px;position:relative;overflow:hidden}
+.sec-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--ac),var(--ac2));opacity:0;transition:.3s}
+.sec-card:focus-within::before{opacity:1}
+.sec-card-title{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.sec-card-ico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.sec-card-txt h3{font-size:17px;font-weight:700;margin-bottom:2px}
+.sec-card-txt p{font-size:13px;color:var(--t2)}
+
+/* ─── FORM FIELDS ─── */
+.fg{margin-bottom:22px}
+.fg:last-child{margin-bottom:0}
+label{display:block;font-size:13px;font-weight:600;color:var(--t2);margin-bottom:8px;letter-spacing:.4px}
+label .req{color:var(--ac);margin-left:2px}
+label .opt{color:var(--t3);font-weight:400;font-size:11px;margin-left:6px}
+.fc{width:100%;background:#09090F;border:1px solid var(--bdr2);border-radius:12px;padding:14px 18px;color:var(--t1);font-size:15px;transition:all .2s}
+.fc:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(108,99,255,.18);background:#0a0a15}
+.fc::placeholder{color:var(--t3)}
+select.fc{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394A3B8' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+select.fc option{background:#0e0e1a}
+textarea.fc{resize:vertical;min-height:120px;line-height:1.7}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+
+/* ─── CHOICE CARDS (visual selector) ─── */
+.choice-grid{display:grid;gap:12px}
+.choice-grid.col2{grid-template-columns:1fr 1fr}
+.choice-grid.col3{grid-template-columns:1fr 1fr 1fr}
+.choice-card{border:1px solid var(--bdr2);border-radius:14px;padding:18px 16px;cursor:pointer;transition:all .25s;text-align:center;background:#09090F;position:relative;user-select:none}
+.choice-card:hover{border-color:var(--bdr);background:rgba(108,99,255,.05)}
+.choice-card.selected{border-color:var(--ac);background:rgba(108,99,255,.12);box-shadow:0 0 0 3px rgba(108,99,255,.15)}
+.choice-card input[type="radio"],.choice-card input[type="checkbox"]{position:absolute;opacity:0;width:0;height:0}
+.choice-ic{font-size:26px;margin-bottom:10px;display:block}
+.choice-name{font-size:13px;font-weight:700;color:var(--t1);font-family:'Outfit',sans-serif}
+.choice-desc{font-size:11px;color:var(--t2);margin-top:3px;line-height:1.5}
+.choice-check{position:absolute;top:10px;right:10px;width:20px;height:20px;border-radius:50%;border:1.5px solid var(--bdr2);display:flex;align-items:center;justify-content:center;font-size:9px;color:transparent;transition:.2s}
+.choice-card.selected .choice-check{border-color:var(--ac);background:var(--ac);color:#fff}
+
+/* ─── TOGGLE CHIPS ─── */
+.chip-group{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:flex;align-items:center;gap:7px;padding:9px 16px;border:1px solid var(--bdr2);border-radius:100px;font-size:13px;font-weight:500;color:var(--t2);cursor:pointer;transition:all .2s;background:#09090F;user-select:none}
+.chip:hover{border-color:var(--bdr);color:var(--t1)}
+.chip.selected{border-color:var(--ac);color:var(--ac);background:rgba(108,99,255,.1)}
+.chip input{display:none}
+
+/* ─── COLOR SWATCHES ─── */
+.swatch-row{display:flex;flex-wrap:wrap;gap:10px}
+.swatch{width:44px;height:44px;border-radius:12px;cursor:pointer;border:3px solid transparent;transition:all .2s;position:relative}
+.swatch.selected{border-color:#fff;transform:scale(1.12);box-shadow:0 0 0 2px rgba(255,255,255,.3)}
+.swatch-label{font-size:10px;color:var(--t2);text-align:center;margin-top:6px}
+.swatch-wrap{text-align:center}
+
+/* ─── RANGE SLIDER ─── */
+.slider-wrap{padding:8px 0}
+.slider{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:3px;background:var(--bdr2);outline:none}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));cursor:pointer;box-shadow:0 2px 12px var(--glow)}
+.slider-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:10px}
+.slider-val{text-align:center;font-family:'Outfit',sans-serif;font-size:18px;font-weight:700;color:var(--ac);margin-bottom:10px}
+
+/* ─── NAVIGATION BUTTONS ─── */
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;gap:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:11px;font-weight:600;font-size:15px;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .25s ease}
+.btn-p{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 4px 22px var(--glow)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 34px var(--glow)}
+.btn-o{background:transparent;color:var(--t1);border:1px solid var(--bdr)}
+.btn-o:hover{border-color:var(--ac);color:var(--ac)}
+.btn-lg{padding:16px 36px;font-size:16px}
+.btn-g{background:linear-gradient(135deg,var(--gold),#fbbf24);color:#07070f;font-weight:700;box-shadow:0 4px 22px rgba(245,158,11,.3)}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 8px 34px rgba(245,158,11,.4)}
+.btn-full{width:100%;justify-content:center}
+
+/* ─── PROGRESS BAR ─── */
+.progress-track{height:3px;background:var(--bdr2);border-radius:3px;margin-bottom:44px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--ac),var(--ac2));border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+
+
+/* ─── INLINE ERROR ─── */
+.err-box{display:none;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.3);border-radius:12px;padding:13px 18px;margin-bottom:20px;font-size:14px;color:#f87171;align-items:center;gap:10px}
+.err-box.show{display:flex}
+
+/* ─── BTN SPINNER ─── */
+.btn-spin{width:18px;height:18px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── SUCCESS SCREEN ─── */
+.success-screen{display:none;text-align:center;padding:60px 20px}
+.success-screen.show{display:block;animation:stepIn .5s ease}
+.success-ico{width:90px;height:90px;background:rgba(34,197,94,.12);border:2px solid rgba(34,197,94,.3);border-radius:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:38px;color:var(--green)}
+.success-title{font-size:36px;font-weight:900;letter-spacing:-.5px;margin-bottom:12px}
+.success-sub{font-size:17px;color:var(--t2);max-width:440px;margin:0 auto 36px;line-height:1.8}
+.success-items{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.s-item{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);background:rgba(255,255,255,.04);border:1px solid var(--bdr2);border-radius:12px;padding:10px 16px}
+.s-item i{color:var(--green)}
+
+/* ─── TOAST ─── */
+.toast{position:fixed;bottom:28px;right:28px;min-width:300px;max-width:360px;background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:18px 20px;z-index:9999;display:flex;align-items:flex-start;gap:14px;box-shadow:0 24px 64px rgba(0,0,0,.5);transform:translateY(24px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1;pointer-events:auto}
+.toast.success .toast-ic{background:rgba(34,197,94,.15);color:var(--green)}
+.toast.error .toast-ic{background:rgba(239,68,68,.15);color:#f87171}
+.toast-ic{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.toast-title{font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;margin-bottom:2px}
+.toast-sub{font-size:13px;color:var(--t2)}
+.toast-close{position:absolute;top:10px;right:12px;background:none;border:none;color:var(--t3);cursor:pointer;font-size:14px}
+
+/* ─── SHIELD BADGE ─── */
+.shield{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--t3);margin-bottom:20px}
+.shield i{color:var(--green)}
+
+/* ─── STEP SUMMARY PILL ─── */
+.step-done-pill{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:100px;font-size:13px;color:var(--green);font-weight:500;margin-bottom:24px}
+
+/* ─── CHOICE IC (FA icons instead of emoji) ─── */
+.choice-ic-fa{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px;margin:0 auto 12px;transition:transform .2s}
+.choice-card:hover .choice-ic-fa{transform:scale(1.08)}
+.choice-card.selected .choice-ic-fa{transform:scale(1.1)}
+
+/* ─── GOOGLE AUTOFILL BANNER ─── */
+.g-autofill-card{background:rgba(108,99,255,.07);border:1px solid rgba(108,99,255,.25);border-radius:16px;padding:16px 20px;margin-bottom:22px;display:none;align-items:center;gap:14px;animation:stepIn .4s ease}
+.g-autofill-card.show{display:flex}
+.g-af-avatar{width:44px;height:44px;border-radius:50%;border:2px solid rgba(108,99,255,.35);object-fit:cover;flex-shrink:0}
+.g-af-avatar-fallback{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--ac),var(--ac2));display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;flex-shrink:0}
+.g-af-txt{flex:1}
+.g-af-name{font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;color:var(--t1)}
+.g-af-email{font-size:12px;color:var(--ac)}
+.g-af-tag{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--green);font-weight:600;margin-top:2px}
+.g-af-dismiss{background:rgba(255,255,255,.06);border:1px solid var(--bdr2);border-radius:8px;color:var(--t3);padding:6px 10px;font-size:12px;cursor:pointer;transition:.2s;white-space:nowrap}
+.g-af-dismiss:hover{color:var(--t1);border-color:var(--bdr)}
+@media(max-width:680px){
+  .f-row,.f-row3{grid-template-columns:1fr}
+  .choice-grid.col2,.choice-grid.col3{grid-template-columns:1fr 1fr}
+  .sec-card{padding:28px 22px}
+  .steps-bar .step-label{display:none}
+  .page-wrap{padding:88px 16px 60px}
+  .nav{padding:0 20px}
+}
+@media(max-width:460px){
+  .choice-grid.col3{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="page-bg"></div>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="./" class="logo">
+    <div class="logo-box"><lord-icon src="https://cdn.lordicon.com/kqhavcsj.json" trigger="hover" colors="primary:#ffffff" style="width:24px;height:24px"></lord-icon></div>
+    <span class="logo-name">Bear</span>
+  </a>
+  <a href="./" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+</nav>
+
+<!-- MAIN -->
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="form-header">
+    <div class="form-eyebrow">Project Brief</div>
+    <h1 class="form-title">Build Your<br><span class="g-text">Dream Website</span></h1>
+    <p class="form-sub">Answer a few smart questions and we'll craft something extraordinary — tailored to you, built with precision.</p>
+    <div class="form-badges">
+      <span class="badge"><i class="fa-solid fa-clock" style="color:var(--ac)"></i> 3 minutes</span>
+      <span class="badge"><i class="fa-solid fa-shield-halved" style="color:var(--green)"></i> Anti-spam protected</span>
+      <span class="badge"><i class="fa-solid fa-bolt" style="color:var(--gold)"></i> Reply in 24 hours</span>
+      <span class="badge"><i class="fa-solid fa-lock" style="color:var(--blue)"></i> 100% private</span>
+    </div>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width:25%"></div>
+  </div>
+
+  <!-- STEPS BAR -->
+  <div class="steps-bar">
+    <div class="step-item active" id="sbar1" onclick="goTo(1)">
+      <div class="step-circle">1</div>
+      <div class="step-label">You</div>
+    </div>
+    <div class="step-item" id="sbar2" onclick="goTo(2)">
+      <div class="step-circle">2</div>
+      <div class="step-label">Website</div>
+    </div>
+    <div class="step-item" id="sbar3" onclick="goTo(3)">
+      <div class="step-circle">3</div>
+      <div class="step-label">Style</div>
+    </div>
+    <div class="step-item" id="sbar4" onclick="goTo(4)">
+      <div class="step-circle">4</div>
+      <div class="step-label">Review</div>
+    </div>
+  </div>
+
+  <!-- ╔══ STEP 1 — WHO ARE YOU ══╗ -->
+  <div class="form-step active" id="step1">
+
+    <!-- Google Auto-fill Banner -->
+    <div class="g-autofill-card" id="gAutofillCard">
+      <img id="gAfAvatar" src="" alt="" class="g-af-avatar" onerror="this.style.display='none';document.getElementById('gAfFallback').style.display='flex'">
+      <div class="g-af-avatar-fallback" id="gAfFallback" style="display:none"></div>
+      <div class="g-af-txt">
+        <div class="g-af-name" id="gAfName"></div>
+        <div class="g-af-email" id="gAfEmail"></div>
+        <div class="g-af-tag"><i class="fa-brands fa-google"></i> Signed in via Google — fields auto-filled</div>
+      </div>
+      <button class="g-af-dismiss" onclick="dismissGoogleFill()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <!-- Telegram Quick Fill -->
+    <!-- Honeypot -->
+    <input type="text" id="hp-field" style="position:absolute;left:-9999px;opacity:0;height:0;width:0" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <div class="shield"><i class="fa-solid fa-shield-halved"></i> Anti-spam active — max 3 submissions per hour</div>
+
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(108,99,255,.15)"><i class="fa-solid fa-user" style="color:var(--ac)"></i></div>
+        <div class="sec-card-txt"><h3>Your Identity</h3><p>Tell us who you are</p></div>
+      </div>
+      <div class="fg f-row">
+        <div>
+          <label>First Name <span class="req">*</span></label>
+          <input id="fname" type="text" class="fc" placeholder="First name">
+        </div>
+        <div>
+          <label>Last Name <span class="req">*</span></label>
+          <input id="lname" type="text" class="fc" placeholder="Last name">
+        </div>
+      </div>
+      <div class="fg">
+        <label>Email Address <span class="req">*</span></label>
+        <input id="email" type="email" class="fc" placeholder="Your email address">
+      </div>
+      <div class="fg">
+        <label>Telegram Username <span class="opt">(optional — for faster reply)</span></label>
+        <input id="tg-handle" type="text" class="fc" placeholder="@username">
+      </div>
+      <div class="fg">
+        <label>WhatsApp Number <span class="opt">(optional)</span></label>
+        <input id="whatsapp" type="tel" class="fc" placeholder="+971 50 000 0000">
+      </div>
+    </div>
+
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(245,158,11,.12)"><i class="fa-solid fa-briefcase" style="color:var(--gold)"></i></div>
+        <div class="sec-card-txt"><h3>Your Profession</h3><p>What do you do?</p></div>
+      </div>
+      <div class="fg">
+        <label>Job Title / Role <span class="req">*</span></label>
+        <input id="job-title" type="text" class="fc" placeholder="e.g. Photographer, Software Engineer, Artist...">
+      </div>
+      <div class="fg">
+        <label>Short Bio <span class="opt">(optional — we'll include this in your site)</span></label>
+        <textarea id="bio" class="fc" style="min-height:90px" placeholder="Write a short intro about yourself — who you are, what you do, what makes you unique..."></textarea>
+      </div>
+    </div>
+
+    <div class="err-box" id="err1"><i class="fa-solid fa-triangle-exclamation"></i> <span id="err1-msg">Please fill in all required fields.</span></div>
+    <div class="form-nav">
+      <div></div>
+      <button class="btn btn-p btn-lg" onclick="next(1)">Next: Website Details <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ╔══ STEP 2 — WEBSITE DETAILS ══╗ -->
+  <div class="form-step" id="step2">
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(56,189,248,.1)"><i class="fa-solid fa-globe" style="color:var(--blue)"></i></div>
+        <div class="sec-card-txt"><h3>Website Type</h3><p>What kind of site do you need?</p></div>
+      </div>
+      <div class="choice-grid col3" id="wtype-grid">
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="Personal Portfolio">
+          <div class="choice-ic-fa" style="background:rgba(99,102,241,.15)"><i class="fa-solid fa-user-tie" style="color:#818cf8"></i></div>
+          <div class="choice-name">Personal Portfolio</div>
+          <div class="choice-desc">Showcase your work</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="Creator Landing Page">
+          <div class="choice-ic-fa" style="background:rgba(245,158,11,.12)"><i class="fa-solid fa-rocket" style="color:#fbbf24"></i></div>
+          <div class="choice-name">Creator Landing</div>
+          <div class="choice-desc">Capture your audience</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="Business Profile">
+          <div class="choice-ic-fa" style="background:rgba(56,189,248,.1)"><i class="fa-solid fa-building" style="color:#38bdf8"></i></div>
+          <div class="choice-name">Business Profile</div>
+          <div class="choice-desc">Professional presence</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="Artist Showcase">
+          <div class="choice-ic-fa" style="background:rgba(239,68,68,.1)"><i class="fa-solid fa-palette" style="color:#f87171"></i></div>
+          <div class="choice-name">Artist Showcase</div>
+          <div class="choice-desc">Gallery-style display</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="Personal Blog">
+          <div class="choice-ic-fa" style="background:rgba(34,197,94,.1)"><i class="fa-solid fa-pen-nib" style="color:#4ade80"></i></div>
+          <div class="choice-name">Personal Blog</div>
+          <div class="choice-desc">Share your thoughts</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="Digital Store">
+          <div class="choice-ic-fa" style="background:rgba(168,85,247,.12)"><i class="fa-solid fa-bag-shopping" style="color:#c084fc"></i></div>
+          <div class="choice-name">Digital Store</div>
+          <div class="choice-desc">Sell your products</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="CV / Resume Website">
+          <div class="choice-ic-fa" style="background:rgba(20,184,166,.1)"><i class="fa-solid fa-file-lines" style="color:#2dd4bf"></i></div>
+          <div class="choice-name">CV / Resume</div>
+          <div class="choice-desc">Stand out in hiring</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="University / Academic">
+          <div class="choice-ic-fa" style="background:rgba(245,158,11,.12)"><i class="fa-solid fa-graduation-cap" style="color:#fbbf24"></i></div>
+          <div class="choice-name">Academic / Uni</div>
+          <div class="choice-desc">Academic project</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'wtype')">
+          <input type="radio" name="wtype" value="Other / Custom">
+          <div class="choice-ic-fa" style="background:rgba(108,99,255,.14)"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--ac2)"></i></div>
+          <div class="choice-name">Other / Custom</div>
+          <div class="choice-desc">Tell us more below</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(245,158,11,.12)"><i class="fa-solid fa-coins" style="color:var(--gold)"></i></div>
+        <div class="sec-card-txt"><h3>Budget Range</h3><p>Choose your plan</p></div>
+      </div>
+      <div class="choice-grid col2" id="budget-grid">
+        <label class="choice-card" onclick="selectChoice(this,'budget')">
+          <input type="radio" name="budget" value="Starter — $10">
+          <div class="choice-ic-fa" style="background:rgba(56,189,248,.1)"><i class="fa-solid fa-bolt" style="color:#38bdf8"></i></div>
+          <div class="choice-name">Starter — $10</div>
+          <div class="choice-desc">Single page · 3 revisions · fast delivery</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'budget')">
+          <input type="radio" name="budget" value="Professional — $30">
+          <div class="choice-ic-fa" style="background:rgba(245,158,11,.12)"><i class="fa-solid fa-fire-flame-curved" style="color:#fb923c"></i></div>
+          <div class="choice-name">Professional — $30</div>
+          <div class="choice-desc">Multi-page · SEO · custom domain</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'budget')">
+          <input type="radio" name="budget" value="Premium — $50">
+          <div class="choice-ic-fa" style="background:rgba(108,99,255,.14)"><i class="fa-solid fa-gem" style="color:var(--ac2)"></i></div>
+          <div class="choice-name">Premium — $50</div>
+          <div class="choice-desc">Full features · animations · priority</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'budget')">
+          <input type="radio" name="budget" value="Custom Project">
+          <div class="choice-ic-fa" style="background:rgba(34,197,94,.1)"><i class="fa-solid fa-screwdriver-wrench" style="color:var(--green)"></i></div>
+          <div class="choice-name">Custom Project</div>
+          <div class="choice-desc">Tell us your needs, we'll quote you</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(34,197,94,.1)"><i class="fa-solid fa-circle-check" style="color:var(--green)"></i></div>
+        <div class="sec-card-txt"><h3>Features You Need</h3><p>Select all that apply</p></div>
+      </div>
+      <div class="chip-group" id="features-group">
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Contact Form"><i class="fa-solid fa-envelope"></i> Contact Form</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Photo Gallery"><i class="fa-solid fa-images"></i> Photo Gallery</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Blog / Articles"><i class="fa-solid fa-pen-nib"></i> Blog / Articles</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Social Links"><i class="fa-brands fa-instagram"></i> Social Links</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Portfolio Projects"><i class="fa-solid fa-layer-group"></i> Portfolio Projects</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Testimonials"><i class="fa-solid fa-quote-right"></i> Testimonials</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="WhatsApp Button"><i class="fa-brands fa-whatsapp"></i> WhatsApp Button</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Dark / Light Mode"><i class="fa-solid fa-circle-half-stroke"></i> Dark / Light Mode</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Multi-language"><i class="fa-solid fa-language"></i> Multi-language</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Video Background"><i class="fa-solid fa-video"></i> Video Background</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="Custom Domain Setup"><i class="fa-solid fa-globe"></i> Custom Domain</label>
+        <label class="chip" onclick="toggleChip(this)"><input type="checkbox" value="SEO Optimization"><i class="fa-solid fa-magnifying-glass"></i> SEO</label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>Vision & Description <span class="req">*</span></label>
+      <textarea id="vision" class="fc" style="min-height:150px" placeholder="Describe your website in detail — what's the purpose, who is the audience, what feeling should it give visitors? Any specific sections or ideas?"></textarea>
+    </div>
+
+    <div class="fg">
+      <label>Inspiration Links <span class="opt">(optional — paste websites you love)</span></label>
+      <textarea id="inspo" class="fc" style="min-height:80px" placeholder="https://example.com&#10;https://another-site.com"></textarea>
+    </div>
+
+    <div class="err-box" id="err2"><i class="fa-solid fa-triangle-exclamation"></i> <span id="err2-msg">Please complete required fields.</span></div>
+    <div class="form-nav">
+      <button class="btn btn-o" onclick="prev(2)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <button class="btn btn-p btn-lg" onclick="next(2)">Next: Style & Preferences <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ╔══ STEP 3 — STYLE & PREFERENCES ══╗ -->
+  <div class="form-step" id="step3">
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(167,139,250,.12)"><i class="fa-solid fa-palette" style="color:var(--ac2)"></i></div>
+        <div class="sec-card-txt"><h3>Design Style</h3><p>Pick your vibe</p></div>
+      </div>
+      <div class="choice-grid col3" id="style-grid">
+        <label class="choice-card" onclick="selectChoice(this,'style')">
+          <input type="radio" name="style" value="Dark & Minimal">
+          <div class="choice-ic-fa" style="background:rgba(15,15,30,.6);border:1px solid rgba(255,255,255,.08)"><i class="fa-solid fa-moon" style="color:#94a3b8"></i></div>
+          <div class="choice-name">Dark & Minimal</div>
+          <div class="choice-desc">Clean, dark, sleek</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'style')">
+          <input type="radio" name="style" value="Light & Clean">
+          <div class="choice-ic-fa" style="background:rgba(248,250,252,.12)"><i class="fa-solid fa-sun" style="color:#fde68a"></i></div>
+          <div class="choice-name">Light & Clean</div>
+          <div class="choice-desc">Fresh, airy, modern</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'style')">
+          <input type="radio" name="style" value="Bold & Colorful">
+          <div class="choice-ic-fa" style="background:rgba(239,68,68,.1)"><i class="fa-solid fa-swatchbook" style="color:#f87171"></i></div>
+          <div class="choice-name">Bold & Colorful</div>
+          <div class="choice-desc">Vibrant, expressive</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'style')">
+          <input type="radio" name="style" value="Luxury & Elegant">
+          <div class="choice-ic-fa" style="background:rgba(245,158,11,.12)"><i class="fa-solid fa-crown" style="color:#fbbf24"></i></div>
+          <div class="choice-name">Luxury & Elegant</div>
+          <div class="choice-desc">Gold, premium feel</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'style')">
+          <input type="radio" name="style" value="Cyberpunk / Neon">
+          <div class="choice-ic-fa" style="background:rgba(56,189,248,.1)"><i class="fa-solid fa-microchip" style="color:#38bdf8"></i></div>
+          <div class="choice-name">Cyberpunk / Neon</div>
+          <div class="choice-desc">Futuristic, glowing</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'style')">
+          <input type="radio" name="style" value="Nature & Organic">
+          <div class="choice-ic-fa" style="background:rgba(34,197,94,.1)"><i class="fa-solid fa-leaf" style="color:#4ade80"></i></div>
+          <div class="choice-name">Nature & Organic</div>
+          <div class="choice-desc">Earthy, warm, calm</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(56,189,248,.1)"><i class="fa-solid fa-droplet" style="color:var(--blue)"></i></div>
+        <div class="sec-card-txt"><h3>Color Theme</h3><p>Primary color direction</p></div>
+      </div>
+      <div class="swatch-row" id="swatch-row">
+        <div class="swatch-wrap"><div class="swatch" style="background:#6C63FF" data-color="Purple / Violet" onclick="selectSwatch(this)"></div><div class="swatch-label">Purple</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:#3b82f6" data-color="Blue" onclick="selectSwatch(this)"></div><div class="swatch-label">Blue</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:#22c55e" data-color="Green" onclick="selectSwatch(this)"></div><div class="swatch-label">Green</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:#f43f5e" data-color="Red / Rose" onclick="selectSwatch(this)"></div><div class="swatch-label">Red</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:#F59E0B" data-color="Gold / Amber" onclick="selectSwatch(this)"></div><div class="swatch-label">Gold</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:#f97316" data-color="Orange" onclick="selectSwatch(this)"></div><div class="swatch-label">Orange</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:#ec4899" data-color="Pink" onclick="selectSwatch(this)"></div><div class="swatch-label">Pink</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:#14b8a6" data-color="Teal / Cyan" onclick="selectSwatch(this)"></div><div class="swatch-label">Teal</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:#e2e8f0" data-color="White / Monochrome" onclick="selectSwatch(this)"></div><div class="swatch-label">White</div></div>
+        <div class="swatch-wrap"><div class="swatch" style="background:linear-gradient(135deg,#6C63FF,#f43f5e)" data-color="Gradient Mix" onclick="selectSwatch(this)"></div><div class="swatch-label">Gradient</div></div>
+      </div>
+      <input type="hidden" id="color-val">
+    </div>
+
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(245,158,11,.12)"><i class="fa-solid fa-wand-magic-sparkles" style="color:var(--gold)"></i></div>
+        <div class="sec-card-txt"><h3>Animation Level</h3><p>How lively should the site feel?</p></div>
+      </div>
+      <div class="choice-grid col3" id="anim-grid">
+        <label class="choice-card" onclick="selectChoice(this,'anim')">
+          <input type="radio" name="anim" value="Minimal — subtle transitions">
+          <div class="choice-ic-fa" style="background:rgba(148,163,184,.08)"><i class="fa-solid fa-feather" style="color:#94a3b8"></i></div>
+          <div class="choice-name">Minimal</div>
+          <div class="choice-desc">Subtle, clean</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'anim')">
+          <input type="radio" name="anim" value="Moderate — smooth scroll & fade">
+          <div class="choice-ic-fa" style="background:rgba(108,99,255,.14)"><i class="fa-solid fa-star" style="color:var(--ac2)"></i></div>
+          <div class="choice-name">Moderate</div>
+          <div class="choice-desc">Smooth & elegant</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'anim')">
+          <input type="radio" name="anim" value="Heavy — full cinematic animations">
+          <div class="choice-ic-fa" style="background:rgba(245,158,11,.12)"><i class="fa-solid fa-film" style="color:#fbbf24"></i></div>
+          <div class="choice-name">Cinematic</div>
+          <div class="choice-desc">Wow-factor effects</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="sec-card">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(34,197,94,.1)"><i class="fa-solid fa-calendar-check" style="color:var(--green)"></i></div>
+        <div class="sec-card-txt"><h3>Delivery Timeline</h3><p>When do you need it?</p></div>
+      </div>
+      <div class="choice-grid col2" id="timeline-grid">
+        <label class="choice-card" onclick="selectChoice(this,'timeline')">
+          <input type="radio" name="timeline" value="ASAP — Rush delivery (2–3 days)">
+          <div class="choice-ic-fa" style="background:rgba(239,68,68,.1)"><i class="fa-solid fa-bolt-lightning" style="color:#f87171"></i></div>
+          <div class="choice-name">ASAP (2–3 days)</div>
+          <div class="choice-desc">Rush delivery</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'timeline')">
+          <input type="radio" name="timeline" value="Standard — 5–7 days">
+          <div class="choice-ic-fa" style="background:rgba(34,197,94,.1)"><i class="fa-solid fa-calendar-check" style="color:var(--green)"></i></div>
+          <div class="choice-name">Standard (5–7 days)</div>
+          <div class="choice-desc">Recommended</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'timeline')">
+          <input type="radio" name="timeline" value="Relaxed — 2 weeks">
+          <div class="choice-ic-fa" style="background:rgba(108,99,255,.12)"><i class="fa-solid fa-clock" style="color:var(--ac2)"></i></div>
+          <div class="choice-name">Relaxed (2 weeks)</div>
+          <div class="choice-desc">No rush</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+        <label class="choice-card" onclick="selectChoice(this,'timeline')">
+          <input type="radio" name="timeline" value="Flexible — no deadline">
+          <div class="choice-ic-fa" style="background:rgba(56,189,248,.1)"><i class="fa-solid fa-infinity" style="color:#38bdf8"></i></div>
+          <div class="choice-name">Flexible</div>
+          <div class="choice-desc">Take your time</div>
+          <div class="choice-check"><i class="fa-solid fa-check"></i></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>Social Media / Links to Include <span class="opt">(optional)</span></label>
+      <textarea id="socials" class="fc" style="min-height:90px" placeholder="Instagram: @handle&#10;LinkedIn: url&#10;GitHub: url&#10;YouTube: url..."></textarea>
+    </div>
+
+    <div class="fg">
+      <label>Additional Notes <span class="opt">(optional)</span></label>
+      <textarea id="notes" class="fc" style="min-height:90px" placeholder="Anything else we should know? Special requirements, languages, accessibility needs..."></textarea>
+    </div>
+
+    <div class="form-nav">
+      <button class="btn btn-o" onclick="prev(3)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      <button class="btn btn-p btn-lg" onclick="next(3)">Review & Submit <i class="fa-solid fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <!-- ╔══ STEP 4 — REVIEW & SUBMIT ══╗ -->
+  <div class="form-step" id="step4">
+    <div class="sec-card" id="review-box">
+      <div class="sec-card-title">
+        <div class="sec-card-ico" style="background:rgba(108,99,255,.15)"><i class="fa-solid fa-list-check" style="color:var(--ac)"></i></div>
+        <div class="sec-card-txt"><h3>Review Your Brief</h3><p>Make sure everything looks right</p></div>
+      </div>
+      <div id="review-content" style="display:grid;gap:12px"></div>
+    </div>
+
+    <div class="err-box" id="err4"><i class="fa-solid fa-triangle-exclamation"></i> <span id="err4-msg">Something went wrong.</span></div>
+
+    <div style="text-align:center;margin-top:36px">
+      <div class="shield" style="justify-content:center;margin-bottom:24px"><i class="fa-solid fa-shield-halved"></i> Your data is sent securely — no storage, no sharing</div>
+      <button class="btn btn-g btn-lg btn-full" id="sendBtn" onclick="submitBrief()" style="max-width:440px;font-size:17px;padding:20px 40px">
+        <i class="fa-solid fa-paper-plane"></i> Send My Project Brief
+      </button>
+      <p style="margin-top:14px;font-size:13px;color:var(--t3)">We'll reply within 24 hours via Telegram or Email</p>
+    </div>
+
+    <div class="form-nav" style="margin-top:32px">
+      <button class="btn btn-o" onclick="prev(4)"><i class="fa-solid fa-arrow-left"></i> Back & Edit</button>
+      <div></div>
+    </div>
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-ico"><i class="fa-solid fa-circle-check"></i></div>
+    <h2 class="success-title">Brief Received! 🎉</h2>
+    <p class="success-sub">Your project brief has been sent to the Bear team. We'll review your vision and get back to you shortly.</p>
+    <div class="success-items">
+      <div class="s-item"><i class="fa-solid fa-clock"></i> Reply within 24 hours</div>
+      <div class="s-item"><i class="fa-brands fa-telegram"></i> Via Telegram or Email</div>
+      <div class="s-item"><i class="fa-solid fa-shield-halved"></i> Your data is safe</div>
+    </div>
+    <a href="./" class="btn btn-p btn-lg"><i class="fa-solid fa-house"></i> Back to Bear Home</a>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-ic" id="toastIc"></div>
+  <div>
+    <div class="toast-title" id="toastTitle"></div>
+    <div class="toast-sub" id="toastSub"></div>
+  </div>
+  <button class="toast-close" onclick="hideToast()"><i class="fa-solid fa-xmark"></i></button>
+</div>
+
+<script>
+/* ════════════════════════════════
+   CONFIG (obfuscated)
+════════════════════════════════ */
+const TG_CONFIG = (function(){
+  const _k = 'brx\x249f2k@mQ7';
+  const _t = [90,74,79,28,13,82,2,88,119,92,107,118,35,58,15,103,110,18,116,91,50,31,9,7,47,5,40,76,75,52,90,41,12,94,0,97,87,30,64,96,119,11,7,15,7,52];
+  const _c = [84,69,79,19,15,85,10,94,117,91];
+  const _d = (a) => a.map((n,i) => String.fromCharCode(n ^ _k.charCodeAt(i % _k.length))).join('');
+  return { BOT_TOKEN: _d(_t), CHAT_ID: _d(_c) };
+})();
+const SPAM = { maxPerHour:3, cooldownMs:60000, minFillSec:5, key:'bear_order_subs' };
+
+let currentStep = 1;
+
+let formOpenedAt = Date.now();
+let _toastTimer = null;
+let selectedColor = '';
+
+
+/* ════════════════════════════════
+   CHOICE CARDS & CHIPS
+════════════════════════════════ */
+function selectChoice(card, group) {
+  document.querySelectorAll(`[id="${group}-grid"] .choice-card`).forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+  saveFormDraft();
+}
+function toggleChip(chip) {
+  chip.classList.toggle('selected');
+  saveFormDraft();
+}
+function selectSwatch(el) {
+  document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedColor = el.dataset.color;
+  document.getElementById('color-val').value = selectedColor;
+  saveFormDraft();
+}
+
+/* ════════════════════════════════
+   STEP NAVIGATION
+════════════════════════════════ */
+function goTo(step) {
+  if (step > currentStep) return; // only allow going back via this
+  currentStep = step;
+  updateUI();
+}
+
+function next(from) {
+  if (!validate(from)) return;
+  currentStep = from + 1;
+  updateUI();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (currentStep === 4) buildReview();
+}
+
+function prev(from) {
+  currentStep = from - 1;
+  updateUI();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateUI() {
+  // steps
+  document.querySelectorAll('.form-step').forEach((el, i) => {
+    el.classList.toggle('active', i + 1 === currentStep);
+  });
+  // step bar
+  for (let i = 1; i <= 4; i++) {
+    const sbar = document.getElementById('sbar' + i);
+    sbar.classList.remove('active','done');
+    if (i < currentStep) sbar.classList.add('done');
+    if (i === currentStep) sbar.classList.add('active');
+    // checkmark in circle for done
+    const circle = sbar.querySelector('.step-circle');
+    if (i < currentStep) {
+      circle.innerHTML = '<i class="fa-solid fa-check" style="font-size:12px"></i>';
+    } else {
+      circle.textContent = i;
+    }
+  }
+  // progress bar
+  const pct = (currentStep / 4) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+/* ════════════════════════════════
+   VALIDATION
+════════════════════════════════ */
+function validate(step) {
+  if (step === 1) {
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const job   = document.getElementById('job-title').value.trim();
+    if (!fname || !lname) return showErr(1, 'Please enter your first and last name.');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showErr(1, 'Please enter a valid email address.');
+    if (!job) return showErr(1, 'Please enter your job title or role.');
+    clearErr(1); return true;
+  }
+  if (step === 2) {
+    const wtype  = document.querySelector('input[name="wtype"]:checked');
+    const budget = document.querySelector('input[name="budget"]:checked');
+    const vision = document.getElementById('vision').value.trim();
+    if (!wtype) return showErr(2, 'Please select a website type.');
+    if (!budget) return showErr(2, 'Please select a budget range.');
+    if (vision.length < 10) return showErr(2, 'Please describe your vision (at least a few words).');
+    clearErr(2); return true;
+  }
+  if (step === 3) {
+    clearErr(3); return true; // style is optional, just pass
+  }
+  return true;
+}
+function showErr(step, msg) {
+  document.getElementById('err' + step + '-msg').textContent = msg;
+  document.getElementById('err' + step).classList.add('show');
+  return false;
+}
+function clearErr(step) {
+  const el = document.getElementById('err' + step);
+  if (el) el.classList.remove('show');
+}
+
+/* ════════════════════════════════
+   BUILD REVIEW
+════════════════════════════════ */
+function buildReview() {
+  const fname  = document.getElementById('fname').value.trim();
+  const lname  = document.getElementById('lname').value.trim();
+  const email  = document.getElementById('email').value.trim();
+  const tgH    = document.getElementById('tg-handle').value.trim();
+  const wa     = document.getElementById('whatsapp').value.trim();
+  const job    = document.getElementById('job-title').value.trim();
+  const bio    = document.getElementById('bio').value.trim();
+  const wtype  = document.querySelector('input[name="wtype"]:checked')?.value || '—';
+  const budget = document.querySelector('input[name="budget"]:checked')?.value || '—';
+  const features = [...document.querySelectorAll('#features-group .chip.selected input')].map(i => i.value);
+  const vision = document.getElementById('vision').value.trim();
+  const inspo  = document.getElementById('inspo').value.trim();
+  const style  = document.querySelector('input[name="style"]:checked')?.value || '—';
+  const color  = selectedColor || '—';
+  const anim   = document.querySelector('input[name="anim"]:checked')?.value || '—';
+  const timeline = document.querySelector('input[name="timeline"]:checked')?.value || '—';
+  const socials  = document.getElementById('socials').value.trim();
+  const notes    = document.getElementById('notes').value.trim();
+
+  const rows = [
+    ['fa-solid fa-user','#818cf8',     'Name',         `${fname} ${lname}`],
+    ['fa-solid fa-envelope','#38bdf8', 'Email',        email],
+    ['fa-brands fa-telegram','#229ED9','Telegram',     (tgH || '—')],
+    ['fa-brands fa-whatsapp','#4ade80','WhatsApp',     wa || '—'],
+    ['fa-solid fa-briefcase','#fbbf24','Role',         job],
+    ['fa-solid fa-globe','#38bdf8',    'Website Type', wtype],
+    ['fa-solid fa-coins','#fbbf24',    'Budget',       budget],
+    ['fa-solid fa-star','var(--ac2)',   'Features',    features.length ? features.join(', ') : '—'],
+    ['fa-solid fa-palette','#f87171',  'Style',        style],
+    ['fa-solid fa-droplet','#818cf8',  'Color',        color],
+    ['fa-solid fa-film','#fbbf24',     'Animation',    anim],
+    ['fa-solid fa-calendar','#4ade80', 'Timeline',     timeline],
+    ['fa-solid fa-pen-nib','var(--ac)','Vision',       vision.length > 120 ? vision.slice(0,120)+'…' : vision],
+    ['fa-solid fa-link','#94a3b8',     'Inspiration',  inspo || '—'],
+    ['fa-solid fa-hashtag','#38bdf8',  'Socials',      socials || '—'],
+    ['fa-solid fa-note-sticky','#94a3b8','Notes',      notes || '—'],
+  ];
+
+  const html = rows.map(([ic, col, k, v]) => `
+    <div style="display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--bdr2)">
+      <div style="width:32px;height:32px;background:rgba(255,255,255,.04);border:1px solid var(--bdr2);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <i class="${ic}" style="font-size:13px;color:${col}"></i>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--t3);font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px">${k}</div>
+        <div style="font-size:14px;font-weight:500;color:var(--t1);word-break:break-word">${v}</div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('review-content').innerHTML = html;
+}
+
+/* ════════════════════════════════
+   ANTI-SPAM
+════════════════════════════════ */
+function spamCheck() {
+  const hp = document.getElementById('hp-field');
+  if (hp && hp.value.trim()) return { ok:false, msg:'Bot detected.' };
+  if ((Date.now() - formOpenedAt) / 1000 < SPAM.minFillSec)
+    return { ok:false, msg:'Please take a moment to fill the form carefully.' };
+  const now = Date.now();
+  let log = [];
+  try { log = JSON.parse(localStorage.getItem(SPAM.key)||'[]'); } catch(e){}
+  log = log.filter(t => now - t < 3600000);
+  if (log.length >= SPAM.maxPerHour)
+    return { ok:false, msg:`Max ${SPAM.maxPerHour} submissions per hour. Try again later.` };
+  const last = log[log.length-1];
+  if (last) {
+    const wait = Math.ceil((SPAM.cooldownMs - (now - last)) / 1000);
+    if (wait > 0) return { ok:false, msg:`Please wait ${wait}s before submitting again.` };
+  }
+  return { ok:true, log, now };
+}
+function recordSend(log, now) {
+  log.push(now);
+  try { localStorage.setItem(SPAM.key, JSON.stringify(log)); } catch(e){}
+}
+
+/* ════════════════════════════════
+   BUILD TELEGRAM MESSAGE
+════════════════════════════════ */
+function buildMsg() {
+  const fname  = document.getElementById('fname').value.trim();
+  const lname  = document.getElementById('lname').value.trim();
+  const email  = document.getElementById('email').value.trim();
+  const tgH    = document.getElementById('tg-handle').value.trim();
+  const wa     = document.getElementById('whatsapp').value.trim();
+  const job    = document.getElementById('job-title').value.trim();
+  const bio    = document.getElementById('bio').value.trim();
+  const wtype  = document.querySelector('input[name="wtype"]:checked')?.value || 'N/A';
+  const budget = document.querySelector('input[name="budget"]:checked')?.value || 'N/A';
+  const features = [...document.querySelectorAll('#features-group .chip.selected input')].map(i => i.value).join(', ') || 'None';
+  const vision = document.getElementById('vision').value.trim();
+  const inspo  = document.getElementById('inspo').value.trim();
+  const style  = document.querySelector('input[name="style"]:checked')?.value || 'Not specified';
+  const color  = selectedColor || 'Not specified';
+  const anim   = document.querySelector('input[name="anim"]:checked')?.value || 'Not specified';
+  const timeline = document.querySelector('input[name="timeline"]:checked')?.value || 'Not specified';
+  const socials  = document.getElementById('socials').value.trim();
+  const notes    = document.getElementById('notes').value.trim();
+
+  const tgLine = tgH ? tgH : '—';
+
+  const now = new Date();
+  const date = now.toLocaleDateString('en-GB', { weekday:'short', year:'numeric', month:'short', day:'numeric' });
+  const time = now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+
+  return `🐻 *Bear — New Project Brief*
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+👤 *Name:* ${fname} ${lname}
+💼 *Role:* ${job}
+📧 *Email:* ${email}
+📱 *WhatsApp:* ${wa || '—'}
+💬 *Telegram:* ${tgLine}
+
+━━━ WEBSITE ━━━
+🖥️ *Type:* ${wtype}
+💰 *Budget:* ${budget}
+📅 *Timeline:* ${timeline}
+✨ *Features:* ${features}
+
+━━━ STYLE ━━━
+🎨 *Design Style:* ${style}
+🌈 *Color Theme:* ${color}
+⚡ *Animation:* ${anim}
+
+━━━ CONTENT ━━━
+📝 *Vision:*
+${vision}
+
+🔗 *Inspiration:*
+${inspo || '_None provided_'}
+
+👤 *Bio:*
+${bio || '_Not provided_'}
+
+📲 *Social Links:*
+${socials || '_None_'}
+
+📋 *Notes:*
+${notes || '_None_'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🕐 *Sent:* ${date} — ${time}
+🔗 *Source:* Bear Order Form`;
+}
+
+/* ════════════════════════════════
+   SUBMIT
+════════════════════════════════ */
+async function submitBrief() {
+  const spam = spamCheck();
+  if (!spam.ok) {
+    document.getElementById('err4-msg').textContent = spam.msg;
+    document.getElementById('err4').classList.add('show');
+    return;
+  }
+  document.getElementById('err4').classList.remove('show');
+
+  const btn = document.getElementById('sendBtn');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<div class="btn-spin"></div> Sending your brief...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${TG_CONFIG.BOT_TOKEN}/sendMessage`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        chat_id: TG_CONFIG.CHAT_ID,
+        text: buildMsg(),
+        parse_mode: 'Markdown'
+      })
+    });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.description || 'Telegram error');
+
+    // success
+    recordSend(spam.log, spam.now);
+    clearFormDraft();
+    document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+    document.querySelector('.steps-bar').style.display = 'none';
+    document.querySelector('.progress-track').style.display = 'none';
+    document.querySelector('.form-header').style.display = 'none';
+    document.getElementById('successScreen').classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+    showToast('success','Brief Sent! 🎉',"We'll reply within 24 hours.");
+
+  } catch(err) {
+    btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Failed — Try Again';
+    btn.style.background = 'linear-gradient(135deg,#dc2626,#ef4444)';
+    document.getElementById('err4-msg').textContent = 'Send failed. Check connection or contact us via WhatsApp.';
+    document.getElementById('err4').classList.add('show');
+    showToast('error','Send Failed','Please try again or use WhatsApp/Telegram directly.');
+    setTimeout(() => { btn.innerHTML = orig; btn.style.background = ''; btn.disabled = false; }, 4000);
+  }
+}
+
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+function showToast(type, title, sub) {
+  const t = document.getElementById('toast');
+  const ic = document.getElementById('toastIc');
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastSub').textContent = sub;
+  t.className = 'toast ' + type;
+  ic.innerHTML = type === 'success'
+    ? '<i class="fa-solid fa-circle-check"></i>'
+    : '<i class="fa-solid fa-triangle-exclamation"></i>';
+  void t.offsetWidth;
+  t.classList.add('show');
+  if (_toastTimer) clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(hideToast, 6000);
+}
+function hideToast() {
+  document.getElementById('toast').classList.remove('show');
+}
+
+/* ════════════════════════════════
+   GOOGLE AUTO-FILL
+════════════════════════════════ */
+let googleUserData = null;
+
+function loadGoogleUser() {
+  // Try sessionStorage first (same tab from index.html), then localStorage (cross-tab)
+  let raw = null;
+  try { raw = sessionStorage.getItem('bear_guser') || localStorage.getItem('bear_guser_persist'); } catch(e){}
+  if (!raw) return;
+  try { googleUserData = JSON.parse(raw); } catch(e){ return; }
+
+  const u = googleUserData;
+  // Auto-fill fields
+  const nameParts = (u.name || '').trim().split(' ');
+  document.getElementById('fname').value = nameParts[0] || '';
+  document.getElementById('lname').value = nameParts.slice(1).join(' ') || '';
+  document.getElementById('email').value = u.email || '';
+
+  // Show banner
+  const card = document.getElementById('gAutofillCard');
+  card.classList.add('show');
+  document.getElementById('gAfName').textContent = u.name || '';
+  document.getElementById('gAfEmail').textContent = u.email || '';
+
+  // Avatar
+  if (u.picture) {
+    document.getElementById('gAfAvatar').src = u.picture;
+  } else {
+    const fb = document.getElementById('gAfFallback');
+    fb.style.display = 'flex';
+    fb.textContent = (u.name || 'U')[0].toUpperCase();
+  }
+
+  // Hide Telegram widget hint (already have data)
+}
+
+function dismissGoogleFill() {
+  document.getElementById('gAutofillCard').classList.remove('show');
+}
+
+/* ════════════════════════════════
+   DRAFT AUTO-SAVE / RESTORE
+════════════════════════════════ */
+const FORM_DRAFT_KEY = 'bear_form_draft';
+
+function saveFormDraft() {
+  const chips = [...document.querySelectorAll('#features-group .chip.selected input')].map(i => i.value);
+  const draft = {
+    fname:    document.getElementById('fname').value,
+    lname:    document.getElementById('lname').value,
+    email:    document.getElementById('email').value,
+    tg:       document.getElementById('tg-handle').value,
+    wa:       document.getElementById('whatsapp').value,
+    job:      document.getElementById('job-title').value,
+    bio:      document.getElementById('bio').value,
+    vision:   document.getElementById('vision').value,
+    inspo:    document.getElementById('inspo').value,
+    socials:  document.getElementById('socials').value,
+    notes:    document.getElementById('notes').value,
+    wtype:    document.querySelector('input[name="wtype"]:checked')?.value    || '',
+    budget:   document.querySelector('input[name="budget"]:checked')?.value   || '',
+    style:    document.querySelector('input[name="style"]:checked')?.value    || '',
+    anim:     document.querySelector('input[name="anim"]:checked')?.value     || '',
+    timeline: document.querySelector('input[name="timeline"]:checked')?.value || '',
+    features: chips,
+    color:    selectedColor
+  };
+  try { localStorage.setItem(FORM_DRAFT_KEY, JSON.stringify(draft)); } catch(e){}
+}
+
+function restoreFormDraft() {
+  let draft;
+  try { draft = JSON.parse(localStorage.getItem(FORM_DRAFT_KEY) || 'null'); } catch(e){ return; }
+  if (!draft) return;
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+  set('fname',     draft.fname);
+  set('lname',     draft.lname);
+  set('email',     draft.email);
+  set('tg-handle', draft.tg);
+  set('whatsapp',  draft.wa);
+  set('job-title', draft.job);
+  set('bio',       draft.bio);
+  set('vision',    draft.vision);
+  set('inspo',     draft.inspo);
+  set('socials',   draft.socials);
+  set('notes',     draft.notes);
+
+  // Radio buttons
+  ['wtype','budget','style','anim','timeline'].forEach(name => {
+    const val = draft[name];
+    if (!val) return;
+    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
+      if (radio.value === val) {
+        radio.checked = true;
+        radio.closest('.choice-card')?.classList.add('selected');
+      }
+    });
+  });
+
+  // Feature chips
+  if (draft.features && draft.features.length) {
+    document.querySelectorAll('#features-group .chip').forEach(chip => {
+      const input = chip.querySelector('input');
+      if (input && draft.features.includes(input.value)) chip.classList.add('selected');
+    });
+  }
+
+  // Color swatch
+  if (draft.color) {
+    const swatch = document.querySelector(`.swatch[data-color="${draft.color}"]`);
+    if (swatch) {
+      swatch.classList.add('selected');
+      selectedColor = draft.color;
+      document.getElementById('color-val').value = selectedColor;
+    }
+  }
+}
+
+function clearFormDraft() {
+  try { localStorage.removeItem(FORM_DRAFT_KEY); } catch(e){}
+}
+
+/* ════════════════════════════════
+   TRACK FORM OPEN TIME
+════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  loadGoogleUser();
+  restoreFormDraft();
+  // Auto-save on any input/change inside the form area
+  document.querySelector('.page-wrap').addEventListener('input',  saveFormDraft);
+  document.querySelector('.page-wrap').addEventListener('change', saveFormDraft);
+  document.querySelectorAll('.fc').forEach(el => {
+    el.addEventListener('focus', () => { formOpenedAt = Date.now(); }, { once:true });
+  });
+});
+</script>
+</body>
+</html>
