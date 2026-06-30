@@ -1208,7 +1208,9 @@ body.login-open{overflow:hidden;touch-action:none}
     signInWithEmailAndPassword,
     sendEmailVerification,
     updateProfile,
-    signOut
+    signOut,
+    setPersistence,
+    browserSessionPersistence
   } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
   const firebaseConfig = {
@@ -1223,6 +1225,9 @@ body.login-open{overflow:hidden;touch-action:none}
 
   const fbApp = initializeApp(firebaseConfig);
   const fbAuth = getAuth(fbApp);
+  // Isolate auth session per browser tab — prevents any cross-tab interference
+  // when multiple people use the same shared device at the same time.
+  setPersistence(fbAuth, browserSessionPersistence).catch(() => {});
 
   let pendingUnverifiedUser = null;
 
@@ -1342,6 +1347,7 @@ body.login-open{overflow:hidden;touch-action:none}
       try { localStorage.setItem('bear_guser_persist', JSON.stringify(userObj)); } catch(e){}
 
       const loginScreenVisible = !document.getElementById('loginScreen').classList.contains('out');
+      document.getElementById('emailLoginForm').reset();
       if (loginScreenVisible){
         document.getElementById('loginBtnWrap').style.display = 'none';
         document.getElementById('emailAuthWrap').style.display = 'none';
@@ -1559,9 +1565,43 @@ function toggleNavDropdown(e) {
   e.stopPropagation();
   document.getElementById('navDropdown').classList.toggle('open');
 }
+function clearUserTraces() {
+  try { localStorage.removeItem('bear_guser_persist'); } catch(e){}
+  const navAv = document.getElementById('navUserAv');
+  if (navAv) navAv.src = '';
+  const navName = document.getElementById('navUserName');
+  if (navName) navName.textContent = '';
+  const ndName = document.getElementById('ndName');
+  if (ndName) ndName.textContent = '';
+  const ndEmail = document.getElementById('ndEmail');
+  if (ndEmail) ndEmail.textContent = '';
+  const fname = document.getElementById('cf-fname');
+  const lname = document.getElementById('cf-lname');
+  const email = document.getElementById('cf-email');
+  const msg = document.getElementById('messageField');
+  if (fname) fname.value = '';
+  if (lname) lname.value = '';
+  if (email) email.value = '';
+  if (msg) msg.value = '';
+}
+
+function clearAuthForms() {
+  const lf = document.getElementById('emailLoginForm');
+  const sf = document.getElementById('emailSignupForm');
+  if (lf) lf.reset();
+  if (sf) sf.reset();
+  const le = document.getElementById('loginError');
+  const se = document.getElementById('signupError');
+  if (le) le.innerHTML = '';
+  if (se) se.innerHTML = '';
+  window.switchAuthTab && window.switchAuthTab('login');
+}
+
 function switchAccount(e) {
   e.stopPropagation();
   document.getElementById('navDropdown').classList.remove('open');
+  clearAuthForms();
+  clearUserTraces();
   document.getElementById('loginBtnWrap').style.display = 'block';
   document.getElementById('emailAuthWrap').style.display = 'block';
   document.getElementById('g-signin-btn').innerHTML = '';
@@ -1597,6 +1637,8 @@ document.addEventListener('click', () => {
 function signOutGoogle() {
   sessionStorage.removeItem('bear_guser');
   googleUser = null;
+  clearAuthForms();
+  clearUserTraces();
   document.getElementById('navUser').style.display = 'none';
   const cta = document.querySelector('.nav-cta');
   if (cta) cta.style.display = '';
