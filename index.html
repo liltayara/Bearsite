@@ -321,6 +321,25 @@ body.login-open{overflow:hidden;touch-action:none}
 .lu-av{width:42px;height:42px;border-radius:50%;border:2px solid rgba(108,99,255,.3);flex-shrink:0}
 .lu-name{font-weight:700;font-size:14px;color:#fff;font-family:'Outfit',sans-serif}
 .lu-email{font-size:12px;color:#64748b}
+/* email + username auth */
+.login-or{display:flex;align-items:center;gap:10px;margin:20px 0 16px}
+.login-or::before,.login-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.login-or span{font-size:12px;color:#334155;letter-spacing:.5px}
+.auth-tabs{display:flex;background:rgba(255,255,255,.03);border:1px solid var(--bdr2);border-radius:10px;padding:4px;gap:4px;margin-bottom:18px}
+.auth-tab{flex:1;background:transparent;border:none;color:var(--t2);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:9px 0;border-radius:7px;cursor:pointer;transition:all .2s}
+.auth-tab.active{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;box-shadow:0 4px 14px var(--glow)}
+.auth-form{display:flex;flex-direction:column;gap:12px;text-align:left}
+.auth-field{position:relative;display:flex;align-items:center}
+.auth-field i{position:absolute;left:14px;font-size:13px;color:var(--t3);pointer-events:none}
+.auth-field input{width:100%;background:rgba(255,255,255,.03);border:1px solid var(--bdr2);border-radius:10px;padding:12px 14px 12px 38px;color:#fff;font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:border-color .2s,background .2s}
+.auth-field input::placeholder{color:#3a3f52}
+.auth-field input:focus{border-color:var(--ac);background:rgba(108,99,255,.06)}
+.btn-email-auth{width:100%;background:rgba(108,99,255,.1);border:1px solid var(--bdr);color:#fff;font-family:'Inter',sans-serif;font-weight:600;font-size:14px;padding:12px 0;border-radius:10px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;min-height:44px}
+.btn-email-auth:hover:not(:disabled){border-color:var(--ac);background:rgba(108,99,255,.16)}
+.btn-email-auth:disabled{opacity:.7;cursor:default}
+.auth-spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.25);border-top-color:#fff;border-radius:50%;animation:bspin .6s linear infinite}
+.auth-error{font-size:12.5px;color:#f87171;line-height:1.6;min-height:0}
+.auth-error a.auth-link{color:var(--ac2);text-decoration:underline;cursor:pointer}
 /* user pill in nav */
 .nav-user{display:flex;align-items:center;gap:8px;background:rgba(108,99,255,.1);border:1px solid var(--bdr);border-radius:100px;padding:5px 14px 5px 6px;cursor:pointer;transition:.2s;position:relative}
 .nav-user:hover{border-color:var(--ac)}
@@ -419,7 +438,43 @@ body.login-open{overflow:hidden;touch-action:none}
       </div>
       <div style="font-size:13px;color:#475569">Signing you in...</div>
     </div>
-    <div class="login-divider"><span>protected by Google OAuth 2.0</span></div>
+    <!-- Email + Username Auth -->
+    <div id="emailAuthWrap">
+      <div class="login-or"><span>OR</span></div>
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign In</button>
+        <button type="button" class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Sign Up</button>
+      </div>
+      <form id="emailLoginForm" class="auth-form" onsubmit="handleEmailLogin(event)">
+        <div class="auth-field">
+          <i class="fa-solid fa-envelope"></i>
+          <input type="email" id="loginEmail" placeholder="Email address" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="loginPassword" placeholder="Password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn-email-auth" id="loginSubmitBtn"><span>Sign In</span></button>
+        <div class="auth-error" id="loginError"></div>
+      </form>
+      <form id="emailSignupForm" class="auth-form" style="display:none" onsubmit="handleEmailSignup(event)">
+        <div class="auth-field">
+          <i class="fa-solid fa-user"></i>
+          <input type="text" id="signupUsername" placeholder="Username" required minlength="3" maxlength="24" autocomplete="username">
+        </div>
+        <div class="auth-field">
+          <i class="fa-solid fa-envelope"></i>
+          <input type="email" id="signupEmail" placeholder="Email address" required autocomplete="email">
+        </div>
+        <div class="auth-field">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="signupPassword" placeholder="Password (min 6 characters)" required minlength="6" autocomplete="new-password">
+        </div>
+        <button type="submit" class="btn-email-auth" id="signupSubmitBtn"><span>Create Account</span></button>
+        <div class="auth-error" id="signupError"></div>
+      </form>
+    </div>
+    <div class="login-divider"><span>protected by Google OAuth 2.0 & Firebase</span></div>
     <p class="login-note">By continuing, you agree to Bear's <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></p>
   </div>
 </div>
@@ -1144,9 +1199,193 @@ body.login-open{overflow:hidden;touch-action:none}
   <button class="tg-toast-close" onclick="hideToast()"><i class="fa-solid fa-xmark"></i></button>
 </div>
 
+<!-- ══ FIREBASE EMAIL/USERNAME AUTH ══ -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
+    updateProfile,
+    signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyA2hYu9LiVWQk8-YQiHqz3ikJdqT1gGB7c",
+    authDomain: "bearssites.firebaseapp.com",
+    projectId: "bearssites",
+    storageBucket: "bearssites.firebasestorage.app",
+    messagingSenderId: "66770893866",
+    appId: "1:66770893866:web:3fa1cd5d59fe8489d35753",
+    measurementId: "G-CV21YXXR19"
+  };
+
+  const fbApp = initializeApp(firebaseConfig);
+  const fbAuth = getAuth(fbApp);
+
+  let pendingUnverifiedUser = null;
+
+  function setBtnLoading(btn, loading, label){
+    if (!btn) return;
+    btn.disabled = loading;
+    btn.innerHTML = loading ? '<span class="auth-spinner"></span>' : `<span>${label}</span>`;
+  }
+
+  function fbErrorMessage(code){
+    const map = {
+      'auth/email-already-in-use': 'This email is already registered. Try signing in instead.',
+      'auth/invalid-email': 'Please enter a valid email address.',
+      'auth/weak-password': 'Password should be at least 6 characters.',
+      'auth/user-not-found': 'No account found with this email.',
+      'auth/wrong-password': 'Incorrect email or password.',
+      'auth/invalid-credential': 'Incorrect email or password.',
+      'auth/missing-password': 'Please enter your password.',
+      'auth/too-many-requests': 'Too many attempts. Please wait a moment and try again.',
+      'auth/network-request-failed': 'Network error. Check your internet connection.'
+    };
+    return map[code] || 'Something went wrong. Please try again.';
+  }
+
+  // ── Tab switcher ──
+  window.switchAuthTab = function(tab){
+    const tabLogin = document.getElementById('tabLogin');
+    const tabSignup = document.getElementById('tabSignup');
+    const loginForm = document.getElementById('emailLoginForm');
+    const signupForm = document.getElementById('emailSignupForm');
+    document.getElementById('loginError').innerHTML = '';
+    document.getElementById('signupError').innerHTML = '';
+    if (tab === 'signup'){
+      tabSignup.classList.add('active'); tabLogin.classList.remove('active');
+      signupForm.style.display = 'flex'; loginForm.style.display = 'none';
+    } else {
+      tabLogin.classList.add('active'); tabSignup.classList.remove('active');
+      loginForm.style.display = 'flex'; signupForm.style.display = 'none';
+    }
+  };
+
+  // ── Sign Up ──
+  window.handleEmailSignup = async function(e){
+    e.preventDefault();
+    const username = document.getElementById('signupUsername').value.trim();
+    const email = document.getElementById('signupEmail').value.trim();
+    const password = document.getElementById('signupPassword').value;
+    const errBox = document.getElementById('signupError');
+    const btn = document.getElementById('signupSubmitBtn');
+    errBox.textContent = '';
+
+    if (username.length < 3){
+      errBox.textContent = 'Username must be at least 3 characters.';
+      return;
+    }
+
+    setBtnLoading(btn, true);
+    try {
+      const cred = await createUserWithEmailAndPassword(fbAuth, email, password);
+      await updateProfile(cred.user, { displayName: username });
+      await sendEmailVerification(cred.user);
+      await signOut(fbAuth);
+
+      document.getElementById('emailSignupForm').reset();
+      window.switchAuthTab('login');
+      document.getElementById('loginEmail').value = email;
+      showToast('success', 'Verification Email Sent ✅', `Check ${email} to verify your account, then sign in.`);
+    } catch(err){
+      errBox.textContent = fbErrorMessage(err.code);
+    } finally {
+      setBtnLoading(btn, false, 'Create Account');
+    }
+  };
+
+  // ── Resend verification ──
+  window.resendVerification = async function(){
+    if (!pendingUnverifiedUser) return;
+    try {
+      await sendEmailVerification(pendingUnverifiedUser);
+      showToast('success', 'Email Sent ✅', 'Verification email re-sent. Please check your inbox.');
+    } catch(err){
+      showToast('error', 'Could Not Send', 'Please wait a moment and try again.');
+    } finally {
+      try { await signOut(fbAuth); } catch(e){}
+      pendingUnverifiedUser = null;
+    }
+  };
+
+  // ── Sign In ──
+  window.handleEmailLogin = async function(e){
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errBox = document.getElementById('loginError');
+    const btn = document.getElementById('loginSubmitBtn');
+    errBox.innerHTML = '';
+
+    setBtnLoading(btn, true);
+    try {
+      const cred = await signInWithEmailAndPassword(fbAuth, email, password);
+
+      if (!cred.user.emailVerified){
+        pendingUnverifiedUser = cred.user;
+        errBox.innerHTML = 'Please verify your email before signing in. <a class="auth-link" onclick="resendVerification();return false;" href="#">Resend verification email</a>';
+        setBtnLoading(btn, false, 'Sign In');
+        return;
+      }
+
+      const displayName = cred.user.displayName || email.split('@')[0];
+      const userObj = {
+        name: displayName,
+        email: cred.user.email,
+        picture: `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=6C63FF&color=fff&bold=true&size=128`
+      };
+
+      sessionStorage.setItem('bear_guser', JSON.stringify(userObj));
+      try { localStorage.setItem('bear_guser_persist', JSON.stringify(userObj)); } catch(e){}
+
+      const loginScreenVisible = !document.getElementById('loginScreen').classList.contains('out');
+      if (loginScreenVisible){
+        document.getElementById('loginBtnWrap').style.display = 'none';
+        document.getElementById('emailAuthWrap').style.display = 'none';
+        const ll = document.getElementById('loginLoading');
+        ll.style.display = 'flex';
+        const lc = document.getElementById('loginUserCard');
+        document.getElementById('loginUserAv').src = userObj.picture;
+        document.getElementById('loginUserName').textContent = userObj.name;
+        document.getElementById('loginUserEmail').textContent = userObj.email;
+        setTimeout(() => { lc.style.display = 'flex'; }, 150);
+        setTimeout(() => window.dismissLoginScreen(userObj), 700);
+      } else {
+        window.dismissLoginScreen(userObj);
+        showToast('success', 'Signed In ✅', userObj.name);
+      }
+    } catch(err){
+      errBox.textContent = fbErrorMessage(err.code);
+    } finally {
+      setBtnLoading(btn, false, 'Sign In');
+    }
+  };
+</script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 
 <script>
+// ── Toast notifications ──
+let _toastTimer = null;
+function showToast(type, title, sub){
+  const t = document.getElementById('tgToast');
+  const ic = document.getElementById('tgToastIc');
+  document.getElementById('tgToastTitle').textContent = title || '';
+  document.getElementById('tgToastSub').textContent = sub || '';
+  t.classList.remove('success','error');
+  t.classList.add(type === 'error' ? 'error' : 'success');
+  ic.innerHTML = type === 'error' ? '<i class="fa-solid fa-triangle-exclamation"></i>' : '<i class="fa-solid fa-check"></i>';
+  t.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(hideToast, 5000);
+}
+function hideToast(){
+  document.getElementById('tgToast').classList.remove('show');
+}
+
 // Init AOS
 AOS.init({duration:700,once:true,offset:60});
 
@@ -1324,6 +1563,7 @@ function switchAccount(e) {
   e.stopPropagation();
   document.getElementById('navDropdown').classList.remove('open');
   document.getElementById('loginBtnWrap').style.display = 'block';
+  document.getElementById('emailAuthWrap').style.display = 'block';
   document.getElementById('g-signin-btn').innerHTML = '';
   document.getElementById('loginLoading').style.display = 'none';
   document.getElementById('loginUserCard').style.display = 'none';
@@ -1361,6 +1601,7 @@ function signOutGoogle() {
   const cta = document.querySelector('.nav-cta');
   if (cta) cta.style.display = '';
   document.getElementById('loginBtnWrap').style.display = 'block';
+  document.getElementById('emailAuthWrap').style.display = 'block';
   document.getElementById('loginLoading').style.display = 'none';
   document.getElementById('loginScreen').classList.remove('out');
   document.body.classList.add('login-open');
