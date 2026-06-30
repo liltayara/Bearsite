@@ -924,7 +924,7 @@ body.login-open{overflow:hidden;touch-action:none}
           <li class="off"><i class="fa-solid fa-xmark"></i> SEO optimization</li>
           <li class="off"><i class="fa-solid fa-xmark"></i> Analytics dashboard</li>
         </ul>
-        <a href="#" onclick="openPaypalModal();return false;" class="btn btn-o" style="width:100%;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#contact" class="btn btn-o" style="width:100%;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
       </div>
       <div class="pr-card hot" data-aos="fade-up" data-aos-delay="100">
         <div class="pn">Professional</div>
@@ -940,7 +940,7 @@ body.login-open{overflow:hidden;touch-action:none}
           <li><i class="fa-solid fa-check"></i> Priority delivery</li>
           <li><i class="fa-solid fa-check"></i> Free support included</li>
         </ul>
-        <a href="#" onclick="openPaypalModal();return false;" class="btn btn-p" style="width:100%;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#contact" class="btn btn-p" style="width:100%;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
       </div>
       <div class="pr-card" data-aos="fade-up" data-aos-delay="200">
         <div class="pn">Premium</div>
@@ -956,7 +956,7 @@ body.login-open{overflow:hidden;touch-action:none}
           <li><i class="fa-solid fa-check"></i> Extended priority support</li>
           <li><i class="fa-solid fa-check"></i> Brand identity kit</li>
         </ul>
-        <a href="#" onclick="openPaypalModal();return false;" class="btn btn-g" style="width:100%;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
+        <a href="#contact" class="btn btn-g" style="width:100%;justify-content:center">Get Started <i class="fa-solid fa-arrow-right"></i></a>
       </div>
     </div>
   </div>
@@ -1378,41 +1378,6 @@ function signOutGoogle() {
 })();
 
 // No form on this page — moved to order.html
-</script>
-
-<!-- ══ PAYPAL CHECKOUT MODAL ══ -->
-<style>
-#paypalModal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(6px);padding:20px}
-#paypalModal.open{display:flex}
-#paypalModal .pp-box{background:var(--card,#0C0C1A);border:1px solid var(--bdr,rgba(108,99,255,.14));border-radius:16px;padding:28px 24px;max-width:380px;width:100%;text-align:center;position:relative}
-#paypalModal .pp-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--t2,#94A3B8);font-size:22px;cursor:pointer;line-height:1}
-#paypalModal h3{color:var(--t1,#F8FAFC);margin:0 0 6px;font-family:Outfit,sans-serif}
-#paypalModal p{color:var(--t2,#94A3B8);font-size:14px;margin:0 0 18px}
-</style>
-<div id="paypalModal">
-  <div class="pp-box">
-    <button class="pp-close" onclick="closePaypalModal()">&times;</button>
-    <h3>Complete Your Payment</h3>
-    <p>Secure checkout powered by PayPal</p>
-    <div id="paypal-container-USRNAVB3KEZQ8"></div>
-  </div>
-</div>
-<script src="https://www.paypal.com/sdk/js?client-id=BAArhW-UeslmXxu4sC0MYnPhBhCXwjaf3vZxEEl1MNboHkv8QWZ_wyfor7IhfCzuZ4Gq7O1ypoeBLlyRUw&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
-<script>
-let paypalRendered = false;
-function openPaypalModal(){
-  document.getElementById('paypalModal').classList.add('open');
-  if(!paypalRendered){
-    paypal.HostedButtons({ hostedButtonId: "USRNAVB3KEZQ8" }).render("#paypal-container-USRNAVB3KEZQ8");
-    paypalRendered = true;
-  }
-}
-function closePaypalModal(){
-  document.getElementById('paypalModal').classList.remove('open');
-}
-document.getElementById('paypalModal').addEventListener('click', function(e){
-  if(e.target === this) closePaypalModal();
-});
 </script>
 </body>
 </html>
