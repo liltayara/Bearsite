@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data:; connect-src 'none'">
 <title>Bear Referral Program — Earn by Sharing</title>
 <meta name="description" content="Refer a friend to Bear and earn 20% commission on every project they order. No limits, no expiry.">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -19,7 +20,7 @@
   --glow:rgba(108,99,255,.28);--gglow:rgba(245,158,11,.25);
   --r:12px;--r2:20px;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{background:var(--bg0);color:var(--t1);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;position:relative}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg0)}::-webkit-scrollbar-thumb{background:var(--ac);border-radius:3px}
@@ -402,8 +403,8 @@ footer a:hover{color:var(--ac2)}
             <button class="copy-btn" id="copyBtn" onclick="copyLink()"><i class="fa-regular fa-copy"></i> Copy</button>
           </div>
           <div class="share-row">
-            <a class="share-btn share-wa" id="shareWa" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
-            <a class="share-btn share-tg" id="shareTg" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> Telegram</a>
+            <a class="share-btn share-wa" id="shareWa" href="javascript:void(0)" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <a class="share-btn share-tg" id="shareTg" href="javascript:void(0)" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-telegram"></i> Telegram</a>
             <button class="share-btn share-tw" onclick="shareTwitter()"><i class="fa-brands fa-x-twitter"></i> Post</button>
           </div>
         </div>
@@ -458,7 +459,7 @@ footer a:hover{color:var(--ac2)}
 <!-- FOOTER -->
 <footer>
   <div class="wrap">
-    <p>© 2026 Bear · <a href="index.html">Back to main site</a> · <a href="https://t.me/lil_tayara" target="_blank" rel="noopener">Questions? Telegram</a></p>
+    <p>© 2026 Bear · <a href="index.html">Back to main site</a> · <a href="https://t.me/lil_tayara" target="_blank" rel="noopener noreferrer">Questions? Telegram</a></p>
   </div>
 </footer>
 
@@ -519,24 +520,55 @@ updateCalc();
 // ── LINK GENERATOR ──
 const BASE='https://liltayara.github.io/Bearsite/?ref=';
 let currentLink='';
+let _genBusy=false;
+
+function _showInputError(msg){
+  const inp=document.getElementById('handleInput');
+  inp.style.borderColor='rgba(239,68,68,.5)';
+  inp.focus();
+  if(msg){
+    inp.placeholder=msg;
+    setTimeout(()=>{inp.placeholder='e.g. lil_tayara or Ahmad';inp.style.borderColor=''},2000);
+  } else {
+    setTimeout(()=>inp.style.borderColor='',1500);
+  }
+}
 
 function generateLink(){
+  // debounce: prevent rapid-fire calls
+  if(_genBusy)return;
+  _genBusy=true;
+  setTimeout(()=>_genBusy=false,600);
+
   const raw=document.getElementById('handleInput').value.trim();
-  if(!raw){
-    document.getElementById('handleInput').style.borderColor='rgba(239,68,68,.5)';
-    document.getElementById('handleInput').focus();
-    setTimeout(()=>document.getElementById('handleInput').style.borderColor='',1200);
+
+  // Must have input
+  if(!raw){_showInputError();return;}
+
+  // Enforce maxlength in JS too (never trust only HTML attr)
+  if(raw.length>40){_showInputError('Max 40 characters');return;}
+
+  // Strict sanitization — only alphanumeric, underscore, hyphen, Arabic letters
+  // CRITICAL: no fallback to raw — if nothing survives sanitization we reject
+  const handle=raw.replace(/[^a-zA-Z0-9_\-\u0600-\u06FF]/g,'').slice(0,40);
+  if(!handle){
+    _showInputError('Letters & numbers only');
     return;
   }
-  const handle=raw.replace(/[^a-zA-Z0-9_\u0600-\u06FF]/g,'').slice(0,40) || raw.slice(0,40);
+
+  // Build URL — encodeURIComponent ensures safe URL encoding
   const encoded=encodeURIComponent(handle);
   currentLink=BASE+encoded;
+
+  // Display via textContent (XSS-safe — never innerHTML for user data)
   document.getElementById('linkUrl').textContent=currentLink;
-  // share links
-  const msg=encodeURIComponent(`🐻 Bear builds stunning personal websites starting from $10.\nUse my referral link: ${currentLink}`);
-  document.getElementById('shareWa').href=`https://wa.me/?text=${msg}`;
-  document.getElementById('shareTg').href=`https://t.me/share/url?url=${encodeURIComponent(currentLink)}&text=${encodeURIComponent('🐻 Bear builds stunning personal websites from $10 — check it out:')}`;
-  // show output
+
+  // Build share URLs — both url and message are fully encoded
+  const waText=encodeURIComponent('🐻 Bear builds stunning personal websites starting from $10.\nUse my referral link: '+currentLink);
+  document.getElementById('shareWa').href='https://wa.me/?text='+waText;
+  document.getElementById('shareTg').href='https://t.me/share/url?url='+encodeURIComponent(currentLink)+'&text='+encodeURIComponent('🐻 Bear builds stunning personal websites from $10 — check it out:');
+
+  // Show output
   const out=document.getElementById('linkOutput');
   out.classList.add('show');
   const copyBtn=document.getElementById('copyBtn');
@@ -547,21 +579,46 @@ function generateLink(){
 
 document.getElementById('handleInput').addEventListener('keydown',e=>{if(e.key==='Enter')generateLink()});
 
+// Prevent paste of excessively long strings
+document.getElementById('handleInput').addEventListener('paste',e=>{
+  const pasted=(e.clipboardData||window.clipboardData).getData('text');
+  if(pasted.length>40){e.preventDefault();document.getElementById('handleInput').value=pasted.slice(0,40);}
+});
+
+function _copySucceed(){
+  const btn=document.getElementById('copyBtn');
+  btn.innerHTML='<i class="fa-solid fa-check"></i> Copied!';
+  btn.classList.add('copied');
+  showToast();
+  setTimeout(()=>{btn.innerHTML='<i class="fa-regular fa-copy"></i> Copy';btn.classList.remove('copied');},2800);
+}
+
+function _fallbackCopy(){
+  // execCommand fallback for environments without clipboard API
+  const ta=document.createElement('textarea');
+  ta.value=currentLink;
+  ta.setAttribute('readonly','');
+  ta.style.cssText='position:fixed;top:0;left:0;opacity:0;pointer-events:none;';
+  document.body.appendChild(ta);
+  ta.focus();ta.select();
+  try{document.execCommand('copy');_copySucceed();}catch(e){/* silent fail */}
+  document.body.removeChild(ta);
+}
+
 function copyLink(){
   if(!currentLink)return;
-  navigator.clipboard.writeText(currentLink).then(()=>{
-    const btn=document.getElementById('copyBtn');
-    btn.innerHTML='<i class="fa-solid fa-check"></i> Copied!';
-    btn.classList.add('copied');
-    showToast();
-    setTimeout(()=>{btn.innerHTML='<i class="fa-regular fa-copy"></i> Copy';btn.classList.remove('copied')},2800);
-  });
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(currentLink).then(_copySucceed).catch(_fallbackCopy);
+  } else {
+    _fallbackCopy();
+  }
 }
 
 function shareTwitter(){
   if(!currentLink)return;
-  const txt=encodeURIComponent(`If you need a personal website, Bear builds them from $10 🔥 → ${currentLink}`);
-  window.open(`https://twitter.com/intent/tweet?text=${txt}`,'_blank');
+  const txt=encodeURIComponent('If you need a personal website, Bear builds them from $10 🔥 → '+currentLink);
+  // noopener,noreferrer prevents tab-napping attack
+  window.open('https://twitter.com/intent/tweet?text='+txt,'_blank','noopener,noreferrer,width=600,height=400');
 }
 
 function showToast(){
