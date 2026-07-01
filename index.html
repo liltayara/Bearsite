@@ -1071,11 +1071,38 @@ body.login-open{overflow:hidden;touch-action:none}
       <p>Join creators and professionals who trust Bear to represent them online.</p>
       <div class="cta-btns">
         <a href="order.html" class="btn btn-p btn-lg"><i class="fa-solid fa-file-pen"></i> Start Your Project Brief</a>
-        <a href="referral.html" class="btn btn-o btn-lg"><i class="fa-solid fa-circle-dollar-to-slot"></i> Referral Program</a>
+        <a href="javascript:void(0)" id="viewOrderBtn" class="btn btn-o btn-lg" style="display:none" onclick="openViewOrder()"><i class="fa-solid fa-file-invoice"></i> View My Order</a>
+        <a href="order.html" id="fillFormBtn" class="btn btn-o btn-lg"><i class="fa-solid fa-file-pen"></i> Fill Project Form</a>
       </div>
     </div>
   </div>
 </div>
+
+<!-- View Order Prompt Modal -->
+<div id="voModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:99998;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#0a0a14;border:1px solid rgba(108,99,255,.25);border-radius:24px;padding:44px 36px;max-width:420px;width:100%;text-align:center;box-shadow:0 40px 120px rgba(0,0,0,.9),0 0 0 1px rgba(108,99,255,.1);position:relative">
+    <button onclick="document.getElementById('voModal').style.display='none'" style="position:absolute;top:16px;right:18px;background:none;border:none;color:#475569;font-size:18px;cursor:pointer"><i class="fa-solid fa-xmark"></i></button>
+    <div style="width:68px;height:68px;background:rgba(245,158,11,.12);border:2px solid rgba(245,158,11,.3);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-size:28px;color:#F59E0B"><i class="fa-solid fa-file-circle-xmark"></i></div>
+    <h3 style="font-family:'Outfit',sans-serif;font-size:22px;font-weight:800;margin-bottom:10px;letter-spacing:-.3px">No Order Found</h3>
+    <p style="font-size:15px;color:#94A3B8;line-height:1.75;margin-bottom:28px">You haven't submitted a project brief yet. Fill out the form first and your order summary will be saved here.</p>
+    <a href="order.html" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;background:linear-gradient(135deg,#6C63FF,#a78bfa);color:#fff;border-radius:11px;font-weight:600;font-size:15px;text-decoration:none;box-shadow:0 4px 22px rgba(108,99,255,.3)"><i class="fa-solid fa-file-pen"></i> Fill Project Form</a>
+  </div>
+</div>
+
+<script>
+(function checkOrderState(){
+  const hasOrder = !!localStorage.getItem('bear_order_data');
+  const vob = document.getElementById('viewOrderBtn');
+  const ffb = document.getElementById('fillFormBtn');
+  if (hasOrder) { if(vob) vob.style.display='inline-flex'; if(ffb) ffb.style.display='none'; }
+  else { if(vob) vob.style.display='none'; if(ffb) ffb.style.display='inline-flex'; }
+})();
+function openViewOrder(){
+  const hasOrder = !!localStorage.getItem('bear_order_data');
+  if(hasOrder){ window.location.href='view-order.html'; }
+  else { document.getElementById('voModal').style.display='flex'; }
+}
+</script>
 
 <!-- ══ FOOTER ══ -->
 <footer>
