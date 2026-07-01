@@ -229,11 +229,11 @@ textarea.fc{resize:vertical;min-height:120px;line-height:1.7}
 
 <!-- NAV -->
 <nav class="nav">
-  <a href="./" class="logo">
+  <a href="index.html" class="logo">
     <div class="logo-box"><lord-icon src="https://cdn.lordicon.com/kqhavcsj.json" trigger="hover" colors="primary:#ffffff" style="width:24px;height:24px"></lord-icon></div>
     <span class="logo-name">Bear</span>
   </a>
-  <a href="./" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+  <a href="index.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
 </nav>
 
 <!-- MAIN -->
@@ -690,7 +690,10 @@ textarea.fc{resize:vertical;min-height:120px;line-height:1.7}
       <div class="s-item"><i class="fa-brands fa-telegram"></i> Via Telegram or Email</div>
       <div class="s-item"><i class="fa-solid fa-shield-halved"></i> Your data is safe</div>
     </div>
-    <a href="./" class="btn btn-p btn-lg"><i class="fa-solid fa-house"></i> Back to Bear Home</a>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="view-order.html" class="btn btn-g btn-lg"><i class="fa-solid fa-file-invoice"></i> View My Order</a>
+      <a href="index.html" class="btn btn-p btn-lg"><i class="fa-solid fa-house"></i> Back to Home</a>
+    </div>
   </div>
 
 </div><!-- /page-wrap -->
@@ -731,18 +734,15 @@ let selectedColor = '';
 function selectChoice(card, group) {
   document.querySelectorAll(`[id="${group}-grid"] .choice-card`).forEach(c => c.classList.remove('selected'));
   card.classList.add('selected');
-  saveFormDraft();
 }
 function toggleChip(chip) {
   chip.classList.toggle('selected');
-  saveFormDraft();
 }
 function selectSwatch(el) {
   document.querySelectorAll('.swatch').forEach(s => s.classList.remove('selected'));
   el.classList.add('selected');
   selectedColor = el.dataset.color;
   document.getElementById('color-val').value = selectedColor;
-  saveFormDraft();
 }
 
 /* ════════════════════════════════
@@ -1014,7 +1014,31 @@ async function submitBrief() {
 
     // success
     recordSend(spam.log, spam.now);
-    clearFormDraft();
+
+    // ── Save order snapshot to localStorage for view-order.html ──
+    try {
+      const fname  = document.getElementById('fname').value.trim();
+      const lname  = document.getElementById('lname').value.trim();
+      const email  = document.getElementById('email').value.trim();
+      const tgH    = document.getElementById('tg-handle').value.trim();
+      const wa     = document.getElementById('whatsapp').value.trim();
+      const job    = document.getElementById('job-title').value.trim();
+      const bio    = document.getElementById('bio').value.trim();
+      const wtype  = document.querySelector('input[name="wtype"]:checked')?.value || '—';
+      const budget = document.querySelector('input[name="budget"]:checked')?.value || '—';
+      const features = [...document.querySelectorAll('#features-group .chip.selected input')].map(i => i.value);
+      const vision = document.getElementById('vision').value.trim();
+      const inspo  = document.getElementById('inspo').value.trim();
+      const style  = document.querySelector('input[name="style"]:checked')?.value || '—';
+      const color  = selectedColor || '—';
+      const anim   = document.querySelector('input[name="anim"]:checked')?.value || '—';
+      const timeline = document.querySelector('input[name="timeline"]:checked')?.value || '—';
+      const socials  = document.getElementById('socials').value.trim();
+      const notes    = document.getElementById('notes').value.trim();
+      const orderData = { fname, lname, email, tgH, wa, job, bio, wtype, budget, features, vision, inspo, style, color, anim, timeline, socials, notes, submittedAt: new Date().toISOString() };
+      localStorage.setItem('bear_order_data', JSON.stringify(orderData));
+    } catch(e) {}
+
     document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
     document.querySelector('.steps-bar').style.display = 'none';
     document.querySelector('.progress-track').style.display = 'none';
@@ -1096,97 +1120,10 @@ function dismissGoogleFill() {
 }
 
 /* ════════════════════════════════
-   DRAFT AUTO-SAVE / RESTORE
-════════════════════════════════ */
-const FORM_DRAFT_KEY = 'bear_form_draft';
-
-function saveFormDraft() {
-  const chips = [...document.querySelectorAll('#features-group .chip.selected input')].map(i => i.value);
-  const draft = {
-    fname:    document.getElementById('fname').value,
-    lname:    document.getElementById('lname').value,
-    email:    document.getElementById('email').value,
-    tg:       document.getElementById('tg-handle').value,
-    wa:       document.getElementById('whatsapp').value,
-    job:      document.getElementById('job-title').value,
-    bio:      document.getElementById('bio').value,
-    vision:   document.getElementById('vision').value,
-    inspo:    document.getElementById('inspo').value,
-    socials:  document.getElementById('socials').value,
-    notes:    document.getElementById('notes').value,
-    wtype:    document.querySelector('input[name="wtype"]:checked')?.value    || '',
-    budget:   document.querySelector('input[name="budget"]:checked')?.value   || '',
-    style:    document.querySelector('input[name="style"]:checked')?.value    || '',
-    anim:     document.querySelector('input[name="anim"]:checked')?.value     || '',
-    timeline: document.querySelector('input[name="timeline"]:checked')?.value || '',
-    features: chips,
-    color:    selectedColor
-  };
-  try { localStorage.setItem(FORM_DRAFT_KEY, JSON.stringify(draft)); } catch(e){}
-}
-
-function restoreFormDraft() {
-  let draft;
-  try { draft = JSON.parse(localStorage.getItem(FORM_DRAFT_KEY) || 'null'); } catch(e){ return; }
-  if (!draft) return;
-
-  const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
-  set('fname',     draft.fname);
-  set('lname',     draft.lname);
-  set('email',     draft.email);
-  set('tg-handle', draft.tg);
-  set('whatsapp',  draft.wa);
-  set('job-title', draft.job);
-  set('bio',       draft.bio);
-  set('vision',    draft.vision);
-  set('inspo',     draft.inspo);
-  set('socials',   draft.socials);
-  set('notes',     draft.notes);
-
-  // Radio buttons
-  ['wtype','budget','style','anim','timeline'].forEach(name => {
-    const val = draft[name];
-    if (!val) return;
-    document.querySelectorAll(`input[name="${name}"]`).forEach(radio => {
-      if (radio.value === val) {
-        radio.checked = true;
-        radio.closest('.choice-card')?.classList.add('selected');
-      }
-    });
-  });
-
-  // Feature chips
-  if (draft.features && draft.features.length) {
-    document.querySelectorAll('#features-group .chip').forEach(chip => {
-      const input = chip.querySelector('input');
-      if (input && draft.features.includes(input.value)) chip.classList.add('selected');
-    });
-  }
-
-  // Color swatch
-  if (draft.color) {
-    const swatch = document.querySelector(`.swatch[data-color="${draft.color}"]`);
-    if (swatch) {
-      swatch.classList.add('selected');
-      selectedColor = draft.color;
-      document.getElementById('color-val').value = selectedColor;
-    }
-  }
-}
-
-function clearFormDraft() {
-  try { localStorage.removeItem(FORM_DRAFT_KEY); } catch(e){}
-}
-
-/* ════════════════════════════════
    TRACK FORM OPEN TIME
 ════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   loadGoogleUser();
-  restoreFormDraft();
-  // Auto-save on any input/change inside the form area
-  document.querySelector('.page-wrap').addEventListener('input',  saveFormDraft);
-  document.querySelector('.page-wrap').addEventListener('change', saveFormDraft);
   document.querySelectorAll('.fc').forEach(el => {
     el.addEventListener('focus', () => { formOpenedAt = Date.now(); }, { once:true });
   });
