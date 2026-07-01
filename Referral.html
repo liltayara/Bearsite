@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bear Referral Program — Earn by Sharing</title>
+<meta name="description" content="Refer a friend to Bear and earn 20% commission on every project they order. No limits, no expiry.">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+/* ── TOKENS ── */
+:root{
+  --bg0:#000000;--bg1:#060608;--bg2:#0A0A12;--card:#0C0C1A;
+  --ac:#6C63FF;--ac2:#a78bfa;--gold:#F59E0B;--gold2:#fbbf24;
+  --green:#22c55e;--green2:#4ade80;
+  --t1:#F8FAFC;--t2:#94A3B8;--t3:#475569;--t4:#1e293b;
+  --bdr:rgba(108,99,255,.14);--bdr2:rgba(255,255,255,.06);
+  --gbdr:rgba(245,158,11,.2);
+  --glow:rgba(108,99,255,.28);--gglow:rgba(245,158,11,.25);
+  --r:12px;--r2:20px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg0);color:var(--t1);font-family:'Inter',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden;position:relative}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--bg0)}::-webkit-scrollbar-thumb{background:var(--ac);border-radius:3px}
+h1,h2,h3,h4{font-family:'Outfit',sans-serif;line-height:1.15}
+
+/* film grain */
+body::before{content:'';position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.032;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+a:focus-visible,button:focus-visible{outline:2px solid var(--ac2);outline-offset:3px;border-radius:4px}
+a:focus,button:focus{outline:none}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:70px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:rgba(7,7,15,.85);backdrop-filter:blur(22px);border-bottom:1px solid var(--bdr2);transition:.3s}
+.nav.stuck{background:rgba(7,7,15,.98);border-bottom-color:var(--bdr)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-box{width:36px;height:36px;background:linear-gradient(135deg,var(--ac),var(--ac2));border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
+.logo-name{font-family:'Outfit',sans-serif;font-weight:800;font-size:19px;color:var(--t1);letter-spacing:-.5px}
+.nav-back{display:flex;align-items:center;gap:8px;color:var(--t2);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s;padding:8px 14px;border:1px solid var(--bdr2);border-radius:8px}
+.nav-back:hover{color:var(--ac);border-color:var(--bdr)}
+.nav-back i{font-size:12px}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:120px 28px 80px;text-align:center}
+.hero-glow{position:absolute;inset:0;background:
+  radial-gradient(ellipse 65% 50% at 50% 0%,rgba(245,158,11,.12) 0%,transparent 60%),
+  radial-gradient(ellipse 40% 40% at 20% 80%,rgba(108,99,255,.1) 0%,transparent 55%),
+  radial-gradient(ellipse 35% 35% at 85% 70%,rgba(34,197,94,.06) 0%,transparent 55%)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(245,158,11,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(245,158,11,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 75%)}
+
+/* animated coin orbiting — the page's signature */
+.coin-orbit{position:absolute;top:50%;left:50%;width:520px;height:520px;margin:-260px 0 0 -260px;pointer-events:none;z-index:0}
+.coin-orbit::before{content:'';position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(245,158,11,.12)}
+.orbit-coin{position:absolute;top:0;left:50%;margin-left:-18px;width:36px;height:36px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;color:#07070f;font-weight:800;font-family:'Outfit',sans-serif;box-shadow:0 4px 18px rgba(245,158,11,.5);animation:orbit 14s linear infinite}
+.orbit-coin:nth-child(2){animation-delay:-4.67s}
+.orbit-coin:nth-child(3){animation-delay:-9.33s}
+@keyframes orbit{from{transform:rotate(0deg) translateY(-260px) rotate(0deg)}to{transform:rotate(360deg) translateY(-260px) rotate(-360deg)}}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);background:rgba(245,158,11,.08);border:1px solid var(--gbdr);border-radius:100px;padding:6px 16px;margin-bottom:28px;position:relative;z-index:2;animation:fu .6s .1s ease forwards;opacity:0}
+.hero h1{font-size:clamp(38px,7vw,88px);font-weight:900;letter-spacing:-3px;margin-bottom:20px;position:relative;z-index:2;animation:fu .6s .15s ease forwards;opacity:0}
+.hero h1 .gold{background:linear-gradient(135deg,var(--gold),var(--gold2),#fff 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--t2);max-width:560px;margin:0 auto 44px;line-height:1.8;position:relative;z-index:2;animation:fu .6s .2s ease forwards;opacity:0}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;z-index:2;animation:fu .6s .25s ease forwards;opacity:0}
+
+@keyframes fu{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TRUST STRIP ── */
+.trust-strip{background:rgba(255,255,255,.02);border-top:1px solid var(--bdr2);border-bottom:1px solid var(--bdr2);padding:20px 0;text-align:center}
+.trust-items{display:flex;align-items:center;justify-content:center;gap:40px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--t3)}
+.trust-item i{font-size:15px}
+.trust-item strong{color:var(--t1);font-weight:600}
+
+/* ── SHARED SECTION ── */
+.sec{padding:96px 0}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+.ey{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
+.ey::before{content:'';width:20px;height:2px;background:linear-gradient(90deg,var(--gold),var(--ac));border-radius:2px;flex-shrink:0}
+.center .ey{justify-content:center}
+.sec-h{font-size:clamp(26px,3.8vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:14px}
+.sec-d{font-size:17px;color:var(--t2);max-width:520px;line-height:1.75}
+.center{text-align:center}
+.center .sec-d{margin:0 auto}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 28px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:all .25s ease}
+.btn-lg{padding:17px 40px;font-size:16px;border-radius:12px}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#07070f;font-weight:700;box-shadow:0 4px 22px var(--gglow),inset 0 1px 0 rgba(255,255,255,.35)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 38px rgba(245,158,11,.42)}
+.btn-ghost{background:rgba(255,255,255,.03);color:var(--t1);border:1px solid var(--bdr2)}
+.btn-ghost:hover{border-color:var(--bdr);background:rgba(255,255,255,.06)}
+
+/* ── HOW IT WORKS ── */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:64px;position:relative}
+.steps::before{content:'';position:absolute;top:44px;left:calc(16.66% + 28px);right:calc(16.66% + 28px);height:1px;background:linear-gradient(90deg,var(--gold),var(--ac),var(--gold));opacity:.3;z-index:0}
+.step{background:linear-gradient(155deg,rgba(255,255,255,.04),rgba(255,255,255,0));border:1px solid var(--bdr2);border-radius:var(--r2);padding:40px 32px;text-align:center;position:relative;transition:all .3s ease}
+.step:hover{border-color:var(--gbdr);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.4)}
+.step-num{width:56px;height:56px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-family:'Outfit',sans-serif;font-size:22px;font-weight:900;color:#07070f;position:relative;z-index:1;box-shadow:0 8px 28px var(--gglow)}
+.step h3{font-size:19px;font-weight:700;margin-bottom:10px}
+.step p{font-size:14px;color:var(--t2);line-height:1.75}
+
+/* ── EARNINGS CALCULATOR — signature element ── */
+.calc-section{background:var(--bg1)}
+.calc-wrap{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:60px}
+.calc-left h3{font-size:clamp(22px,3vw,36px);font-weight:800;letter-spacing:-.8px;margin-bottom:14px}
+.calc-left p{font-size:16px;color:var(--t2);line-height:1.8;margin-bottom:32px}
+
+.slider-wrap{margin-bottom:28px}
+.slider-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.slider-label span{font-size:14px;color:var(--t2)}
+.slider-label strong{font-family:'Outfit',sans-serif;font-size:18px;font-weight:800;color:var(--t1)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:3px;background:var(--bdr2);outline:none;cursor:pointer;position:relative}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));cursor:pointer;box-shadow:0 4px 14px var(--gglow)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold2));cursor:pointer;box-shadow:0 4px 14px var(--gglow);border:none}
+.range-track{position:relative;margin-bottom:8px}
+.range-fill{position:absolute;left:0;top:0;height:6px;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--ac));pointer-events:none;transition:width .15s}
+
+.plan-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:16px}
+.plan-opt{border:1px solid var(--bdr2);border-radius:9px;padding:10px 8px;text-align:center;cursor:pointer;transition:.2s;font-size:13px;color:var(--t2);background:transparent}
+.plan-opt:hover{border-color:var(--gbdr);color:var(--gold)}
+.plan-opt.active{border-color:var(--gold);background:rgba(245,158,11,.08);color:var(--gold);font-weight:600}
+.plan-opt strong{display:block;font-family:'Outfit',sans-serif;font-size:17px;font-weight:800;color:inherit}
+
+/* earnings display */
+.calc-right{background:linear-gradient(155deg,rgba(245,158,11,.06),rgba(108,99,255,.04));border:1px solid var(--gbdr);border-radius:28px;padding:48px 40px;text-align:center;position:relative;overflow:hidden}
+.calc-right::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:320px;height:280px;background:radial-gradient(ellipse,rgba(245,158,11,.14),transparent 70%);pointer-events:none}
+.earn-label{font-size:13px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--t3);margin-bottom:12px}
+.earn-amount{font-family:'Outfit',sans-serif;font-size:clamp(48px,6vw,80px);font-weight:900;letter-spacing:-3px;background:linear-gradient(135deg,var(--gold),var(--gold2),#fff 85%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px;transition:all .4s cubic-bezier(.34,1.56,.64,1)}
+.earn-amount.bump{transform:scale(1.08)}
+.earn-per-ref{font-size:15px;color:var(--t2);margin-bottom:32px}
+.earn-per-ref strong{color:var(--green);font-weight:700}
+.earn-breakdown{display:flex;flex-direction:column;gap:10px;text-align:left;margin-bottom:32px}
+.eb-row{display:flex;align-items:center;justify-content:space-between;font-size:14px;padding:10px 14px;background:rgba(255,255,255,.03);border-radius:9px;border:1px solid var(--bdr2)}
+.eb-row span{color:var(--t2)}
+.eb-row strong{color:var(--t1);font-family:'Outfit',sans-serif;font-weight:700}
+.eb-row.total{border-color:var(--gbdr);background:rgba(245,158,11,.05)}
+.eb-row.total strong{color:var(--gold);font-size:16px}
+
+/* ── COMMISSION TIERS ── */
+.tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:60px}
+.tier{border:1px solid var(--bdr2);border-radius:var(--r2);padding:36px 28px;text-align:center;position:relative;overflow:hidden;transition:.3s ease}
+.tier::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--tier-color,var(--ac));opacity:.5;transition:opacity .3s}
+.tier:hover{border-color:rgba(255,255,255,.12);transform:translateY(-5px)}
+.tier:hover::before{opacity:1}
+.tier-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:20px;color:var(--tier-color,var(--ac));background:color-mix(in srgb, var(--tier-color,var(--ac)) 12%, transparent);border:1px solid color-mix(in srgb, var(--tier-color,var(--ac)) 25%, transparent)}
+.tier-pct{font-family:'Outfit',sans-serif;font-size:52px;font-weight:900;letter-spacing:-2px;color:var(--tier-color,var(--ac));margin-bottom:4px;line-height:1}
+.tier-pct span{font-size:28px;letter-spacing:0}
+.tier h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.tier p{font-size:14px;color:var(--t2);line-height:1.7}
+
+/* ── REFERRAL LINK GENERATOR ── */
+.gen-section{background:var(--bg2)}
+.gen-box{max-width:680px;margin:0 auto}
+.gen-card{background:linear-gradient(155deg,rgba(255,255,255,.04),rgba(255,255,255,0));border:1px solid var(--bdr);border-radius:28px;padding:48px 40px;text-align:center;position:relative;overflow:hidden;margin-top:48px}
+.gen-card::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;background:radial-gradient(ellipse,rgba(108,99,255,.12),transparent 70%);pointer-events:none}
+
+.input-row{display:flex;gap:10px;margin:28px 0 20px}
+.gen-input{flex:1;background:var(--card);border:1px solid var(--bdr2);border-radius:11px;padding:14px 18px;color:var(--t1);font-family:'Inter',sans-serif;font-size:15px;transition:.2s;outline:none}
+.gen-input::placeholder{color:var(--t3)}
+.gen-input:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(108,99,255,.2)}
+.gen-btn{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;border:none;border-radius:11px;padding:0 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;letter-spacing:.5px;transition:.2s;white-space:nowrap}
+.gen-btn:hover{opacity:.9;transform:translateY(-1px)}
+
+.link-output{display:none;background:rgba(0,0,0,.4);border:1px solid var(--bdr);border-radius:14px;padding:18px 20px;margin-top:4px;text-align:left}
+.link-output.show{display:block}
+.link-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+.link-url{font-family:'Inter',sans-serif;font-size:13px;color:var(--ac2);word-break:break-all;flex:1}
+.copy-btn{display:flex;align-items:center;gap:7px;background:rgba(108,99,255,.12);border:1px solid var(--bdr);border-radius:8px;padding:8px 14px;color:var(--t1);font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:'Inter',sans-serif;transition:.2s;flex-shrink:0}
+.copy-btn:hover{background:rgba(108,99,255,.2);border-color:var(--ac)}
+.copy-btn.copied{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.3);color:var(--green)}
+
+/* share buttons */
+.share-row{display:flex;gap:10px;flex-wrap:wrap}
+.share-btn{flex:1;min-width:120px;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:.2s;text-decoration:none}
+.share-wa{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+.share-wa:hover{background:rgba(34,197,94,.2)}
+.share-tg{background:rgba(56,189,248,.1);color:#38bdf8;border:1px solid rgba(56,189,248,.2)}
+.share-tg:hover{background:rgba(56,189,248,.2)}
+.share-tw{background:rgba(255,255,255,.05);color:var(--t2);border:1px solid var(--bdr2)}
+.share-tw:hover{background:rgba(255,255,255,.1);color:var(--t1)}
+
+.gen-note{font-size:13px;color:var(--t3);margin-top:18px;line-height:1.7}
+
+/* ── FAQ ── */
+.faq-list{margin-top:56px;max-width:720px;margin-left:auto;margin-right:auto}
+.faq-it{border-bottom:1px solid var(--bdr2)}
+.faq-q{width:100%;background:none;border:none;color:var(--t1);font-size:16px;font-weight:600;padding:22px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;text-align:left;gap:16px;font-family:'Outfit',sans-serif;transition:color .2s}
+.faq-q:hover{color:var(--gold)}
+.faq-q i{font-size:13px;color:var(--t3);transition:.3s;flex-shrink:0}
+.faq-it.open .faq-q i{transform:rotate(45deg);color:var(--gold)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a p{padding-bottom:20px;font-size:15px;color:var(--t2);line-height:1.8}
+
+/* ── FINAL CTA ── */
+.final-cta{background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(108,99,255,.06));border-top:1px solid var(--bdr);padding:110px 0;text-align:center}
+.final-cta h2{font-size:clamp(28px,4vw,56px);font-weight:900;letter-spacing:-1.5px;margin-bottom:14px}
+.final-cta p{font-size:18px;color:var(--t2);margin-bottom:40px;max-width:460px;margin-left:auto;margin-right:auto}
+
+/* ── FOOTER ── */
+footer{background:var(--bg1);border-top:1px solid var(--bdr2);padding:40px 0;text-align:center}
+footer p{font-size:14px;color:var(--t3)}
+footer a{color:var(--ac);text-decoration:none}
+footer a:hover{color:var(--ac2)}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:32px;right:32px;background:var(--card);border:1px solid rgba(34,197,94,.3);border-radius:14px;padding:16px 20px;z-index:9999;display:flex;align-items:center;gap:14px;box-shadow:0 20px 60px rgba(0,0,0,.5);transform:translateY(20px);opacity:0;transition:all .4s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+.toast.show{transform:translateY(0);opacity:1}
+.toast-ic{width:38px;height:38px;border-radius:9px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:17px;flex-shrink:0}
+.toast-text strong{display:block;font-size:14px;font-weight:700;font-family:'Outfit',sans-serif}
+.toast-text span{font-size:13px;color:var(--t2)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){.calc-wrap{grid-template-columns:1fr}.tiers{grid-template-columns:1fr}.steps::before{display:none}.steps{grid-template-columns:1fr;gap:16px}}
+@media(max-width:600px){.hero h1{letter-spacing:-2px}.hero-ctas{flex-direction:column;align-items:center}.gen-card{padding:32px 22px}.input-row{flex-direction:column}.gen-btn{padding:14px}.coin-orbit{display:none}.plan-grid{grid-template-columns:1fr 1fr}.share-btn{min-width:0}.trust-items{gap:20px}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="index.html" class="logo">
+    <div class="logo-box"><i class="fa-solid fa-paw"></i></div>
+    <span class="logo-name">Bear</span>
+  </a>
+  <a href="index.html" class="nav-back"><i class="fa-solid fa-arrow-left"></i> Back to Bear</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grid"></div>
+
+  <!-- orbiting coins — the signature -->
+  <div class="coin-orbit">
+    <div class="orbit-coin">$</div>
+    <div class="orbit-coin">$</div>
+    <div class="orbit-coin">$</div>
+  </div>
+
+  <div class="hero-eyebrow"><i class="fa-solid fa-circle-dollar-to-slot"></i> Bear Referral Program</div>
+  <h1>Share Bear.<br>Get <span class="gold">Paid.</span></h1>
+  <p class="hero-sub">Every person you send our way who orders a website earns you a real commission. No limits. No expiry. Just share your link.</p>
+  <div class="hero-ctas">
+    <a href="#generate" class="btn btn-gold btn-lg"><i class="fa-solid fa-link"></i> Get My Referral Link</a>
+    <a href="#how" class="btn btn-ghost btn-lg"><i class="fa-solid fa-circle-info"></i> How It Works</a>
+  </div>
+</section>
+
+<!-- TRUST STRIP -->
+<div class="trust-strip">
+  <div class="wrap">
+    <div class="trust-items">
+      <div class="trust-item"><i class="fa-solid fa-percent" style="color:var(--gold)"></i><span>Up to <strong>30% commission</strong> per project</span></div>
+      <div class="trust-item"><i class="fa-solid fa-infinity" style="color:var(--ac)"></i><span><strong>No limit</strong> on referrals</span></div>
+      <div class="trust-item"><i class="fa-solid fa-clock" style="color:var(--green)"></i><span><strong>No expiry</strong> on your link</span></div>
+      <div class="trust-item"><i class="fa-solid fa-wallet" style="color:var(--gold)"></i><span>Paid <strong>after delivery</strong></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="center" data-aos-like>
+      <div class="ey">Simple as it gets</div>
+      <h2 class="sec-h">Three Steps to<br>Your First Payout</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Get Your Link</h3>
+        <p>Enter your name or Telegram handle below and get a unique referral link that tracks every visit and order tied to you.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Share It</h3>
+        <p>Send it to friends, post it on social media, mention it in your bio — anywhere someone might need a personal website.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Earn Commission</h3>
+        <p>When they place an order and we deliver, you receive your cut directly. Every successful project, every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EARNINGS CALCULATOR -->
+<section class="sec calc-section" id="calculator">
+  <div class="wrap">
+    <div class="calc-wrap">
+      <div class="calc-left">
+        <div class="ey">Earnings Calculator</div>
+        <h3>See What You<br>Could Be Making</h3>
+        <p>Move the slider to set how many referrals you send per month, then pick the typical plan they order. No guesswork.</p>
+
+        <div class="slider-wrap">
+          <div class="slider-label">
+            <span>Referrals per month</span>
+            <strong id="refCount">3</strong>
+          </div>
+          <div class="range-track">
+            <input type="range" id="refSlider" min="1" max="20" value="3">
+            <div class="range-fill" id="rangeFill" style="width:10.5%"></div>
+          </div>
+        </div>
+
+        <p style="font-size:13px;color:var(--t3);margin-bottom:14px">Typical plan ordered by your referrals:</p>
+        <div class="plan-grid">
+          <div class="plan-opt" data-price="10" data-pct="20" onclick="selectPlan(this)">
+            <strong>$10</strong>Starter
+          </div>
+          <div class="plan-opt active" data-price="30" data-pct="25" onclick="selectPlan(this)">
+            <strong>$30</strong>Professional
+          </div>
+          <div class="plan-opt" data-price="50" data-pct="30" onclick="selectPlan(this)">
+            <strong>$50</strong>Premium
+          </div>
+        </div>
+      </div>
+
+      <div class="calc-right">
+        <div style="position:relative;z-index:1">
+          <div class="earn-label">Monthly Earnings Estimate</div>
+          <div class="earn-amount" id="earnAmount">$22</div>
+          <div class="earn-per-ref">That's <strong id="perRef">$7.50</strong> per successful referral</div>
+          <div class="earn-breakdown">
+            <div class="eb-row">
+              <span>Referrals / month</span>
+              <strong id="brkRef">3</strong>
+            </div>
+            <div class="eb-row">
+              <span>Project value</span>
+              <strong id="brkVal">$30</strong>
+            </div>
+            <div class="eb-row">
+              <span>Your commission</span>
+              <strong id="brkPct" style="color:var(--gold)">25%</strong>
+            </div>
+            <div class="eb-row total">
+              <span>Monthly total</span>
+              <strong id="brkTotal">$22.50</strong>
+            </div>
+          </div>
+          <a href="#generate" class="btn btn-gold" style="width:100%;justify-content:center;font-size:15px;padding:15px"><i class="fa-solid fa-link"></i> Claim My Link</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMISSION TIERS -->
+<section class="sec" style="background:var(--bg0)">
+  <div class="wrap">
+    <div class="center">
+      <div class="ey">Commission Structure</div>
+      <h2 class="sec-h">More Referrals,<br>Higher Rate</h2>
+      <p class="sec-d">Your commission grows automatically as you send more clients our way. No applications, no approvals.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier" style="--tier-color:#94a3b8">
+        <div class="tier-badge">Starter</div>
+        <div class="tier-pct">20<span>%</span></div>
+        <h3>First 3 Referrals</h3>
+        <p>Solid starting rate for your first three successful referrals. Paid after each project is delivered.</p>
+      </div>
+      <div class="tier" style="--tier-color:var(--gold)">
+        <div class="tier-badge">Pro</div>
+        <div class="tier-pct">25<span>%</span></div>
+        <h3>4–10 Referrals</h3>
+        <p>Once you hit four successful referrals, every project you send earns a higher cut — automatically.</p>
+      </div>
+      <div class="tier" style="--tier-color:var(--green)">
+        <div class="tier-badge">Elite</div>
+        <div class="tier-pct">30<span>%</span></div>
+        <h3>11+ Referrals</h3>
+        <p>Our top tier. If you're consistently sending clients our way, you earn the maximum commission on every single project.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERRAL LINK GENERATOR -->
+<section class="sec gen-section" id="generate">
+  <div class="wrap">
+    <div class="center gen-box">
+      <div class="ey">Your Personal Link</div>
+      <h2 class="sec-h">Get Your<br>Referral Link</h2>
+      <p class="sec-d">Enter your Telegram handle or any name. Your link is generated instantly — no account needed.</p>
+
+      <div class="gen-card">
+        <p style="font-size:15px;color:var(--t2);margin-bottom:4px">Enter your Telegram handle or name:</p>
+        <div class="input-row">
+          <input class="gen-input" id="handleInput" type="text" placeholder="e.g. lil_tayara or Ahmad" maxlength="40" autocomplete="off">
+          <button class="gen-btn" onclick="generateLink()">Generate <i class="fa-solid fa-wand-magic-sparkles"></i></button>
+        </div>
+        <div class="link-output" id="linkOutput">
+          <div class="link-top">
+            <span class="link-url" id="linkUrl"></span>
+            <button class="copy-btn" id="copyBtn" onclick="copyLink()"><i class="fa-regular fa-copy"></i> Copy</button>
+          </div>
+          <div class="share-row">
+            <a class="share-btn share-wa" id="shareWa" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+            <a class="share-btn share-tg" id="shareTg" href="#" target="_blank" rel="noopener"><i class="fa-brands fa-telegram"></i> Telegram</a>
+            <button class="share-btn share-tw" onclick="shareTwitter()"><i class="fa-brands fa-x-twitter"></i> Post</button>
+          </div>
+        </div>
+        <p class="gen-note">Your link never expires and is permanently tied to your handle. Every order that comes through it is credited to you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" style="background:var(--bg1)">
+  <div class="wrap">
+    <div class="center">
+      <div class="ey">FAQ</div>
+      <h2 class="sec-h">Common Questions</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-it">
+        <button class="faq-q">How do I know my referral got counted? <i class="fa-solid fa-plus"></i></button>
+        <div class="faq-a"><p>When someone orders through your link, we contact you via Telegram to confirm. You'll know the client's project plan and receive an update when it's delivered and your commission is ready.</p></div>
+      </div>
+      <div class="faq-it">
+        <button class="faq-q">When and how do I get paid? <i class="fa-solid fa-plus"></i></button>
+        <div class="faq-a"><p>Commission is paid after the referred client's project is successfully delivered. Payment is via PayPal or bank transfer — reach us on Telegram to set this up before your first payout.</p></div>
+      </div>
+      <div class="faq-it">
+        <button class="faq-q">Can I refer more than one person? <i class="fa-solid fa-plus"></i></button>
+        <div class="faq-a"><p>Absolutely. There's no cap. The more you refer, the higher your commission tier becomes — and every referral is tracked indefinitely as long as your link is active.</p></div>
+      </div>
+      <div class="faq-it">
+        <button class="faq-q">What if the person I referred doesn't order immediately? <i class="fa-solid fa-plus"></i></button>
+        <div class="faq-a"><p>Your link doesn't expire, but commission is only counted when someone actively places an order through it. We recommend sharing your link alongside a personal recommendation for best results.</p></div>
+      </div>
+      <div class="faq-it">
+        <button class="faq-q">Do I need to be a past Bear client to join? <i class="fa-solid fa-plus"></i></button>
+        <div class="faq-a"><p>No. Anyone can participate in the referral program — the only requirement is that the people you refer genuinely place orders. Share it with your network and start earning.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <div class="wrap">
+    <div style="max-width:60px;height:60px;background:linear-gradient(135deg,var(--gold),var(--gold2));border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:26px;color:#07070f;box-shadow:0 12px 40px var(--gglow)"><i class="fa-solid fa-circle-dollar-to-slot"></i></div>
+    <h2>Your Link Is<br>Waiting for You</h2>
+    <p>It takes 30 seconds to generate. One share can cover your coffee for the month.</p>
+    <a href="#generate" class="btn btn-gold btn-lg"><i class="fa-solid fa-link"></i> Get My Referral Link</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <p>© 2026 Bear · <a href="index.html">Back to main site</a> · <a href="https://t.me/lil_tayara" target="_blank" rel="noopener">Questions? Telegram</a></p>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-ic"><i class="fa-solid fa-check"></i></div>
+  <div class="toast-text"><strong>Link copied!</strong><span>Now share it with someone who needs a website.</span></div>
+</div>
+
+<script>
+// ── NAV scroll ──
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('stuck',scrollY>20));
+
+// ── FAQ ──
+document.querySelectorAll('.faq-q').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const it=btn.parentElement;
+    const isOpen=it.classList.contains('open');
+    document.querySelectorAll('.faq-it').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null});
+    if(!isOpen){it.classList.add('open');const a=it.querySelector('.faq-a');a.style.maxHeight=a.scrollHeight+'px'}
+  });
+});
+
+// ── EARNINGS CALCULATOR ──
+let currentPrice=30, currentPct=25;
+
+function selectPlan(el){
+  document.querySelectorAll('.plan-opt').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  currentPrice=parseInt(el.dataset.price);
+  currentPct=parseInt(el.dataset.pct);
+  updateCalc();
+}
+
+function updateCalc(){
+  const refs=parseInt(document.getElementById('refSlider').value);
+  const earn=refs*currentPrice*(currentPct/100);
+  const perRef=currentPrice*(currentPct/100);
+  // update range fill
+  const pct=((refs-1)/(20-1))*100;
+  document.getElementById('rangeFill').style.width=pct+'%';
+  document.getElementById('refCount').textContent=refs;
+  // animated amount
+  const el=document.getElementById('earnAmount');
+  el.textContent='$'+earn.toFixed(2).replace(/\.00$/,'');
+  el.classList.add('bump');
+  setTimeout(()=>el.classList.remove('bump'),400);
+  document.getElementById('perRef').textContent='$'+perRef.toFixed(2).replace(/\.00$/,'');
+  document.getElementById('brkRef').textContent=refs;
+  document.getElementById('brkVal').textContent='$'+currentPrice;
+  document.getElementById('brkPct').textContent=currentPct+'%';
+  document.getElementById('brkTotal').textContent='$'+earn.toFixed(2);
+}
+
+document.getElementById('refSlider').addEventListener('input',updateCalc);
+updateCalc();
+
+// ── LINK GENERATOR ──
+const BASE='https://liltayara.github.io/Bearsite/?ref=';
+let currentLink='';
+
+function generateLink(){
+  const raw=document.getElementById('handleInput').value.trim();
+  if(!raw){
+    document.getElementById('handleInput').style.borderColor='rgba(239,68,68,.5)';
+    document.getElementById('handleInput').focus();
+    setTimeout(()=>document.getElementById('handleInput').style.borderColor='',1200);
+    return;
+  }
+  const handle=raw.replace(/[^a-zA-Z0-9_\u0600-\u06FF]/g,'').slice(0,40) || raw.slice(0,40);
+  const encoded=encodeURIComponent(handle);
+  currentLink=BASE+encoded;
+  document.getElementById('linkUrl').textContent=currentLink;
+  // share links
+  const msg=encodeURIComponent(`🐻 Bear builds stunning personal websites starting from $10.\nUse my referral link: ${currentLink}`);
+  document.getElementById('shareWa').href=`https://wa.me/?text=${msg}`;
+  document.getElementById('shareTg').href=`https://t.me/share/url?url=${encodeURIComponent(currentLink)}&text=${encodeURIComponent('🐻 Bear builds stunning personal websites from $10 — check it out:')}`;
+  // show output
+  const out=document.getElementById('linkOutput');
+  out.classList.add('show');
+  const copyBtn=document.getElementById('copyBtn');
+  copyBtn.innerHTML='<i class="fa-regular fa-copy"></i> Copy';
+  copyBtn.classList.remove('copied');
+  out.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+document.getElementById('handleInput').addEventListener('keydown',e=>{if(e.key==='Enter')generateLink()});
+
+function copyLink(){
+  if(!currentLink)return;
+  navigator.clipboard.writeText(currentLink).then(()=>{
+    const btn=document.getElementById('copyBtn');
+    btn.innerHTML='<i class="fa-solid fa-check"></i> Copied!';
+    btn.classList.add('copied');
+    showToast();
+    setTimeout(()=>{btn.innerHTML='<i class="fa-regular fa-copy"></i> Copy';btn.classList.remove('copied')},2800);
+  });
+}
+
+function shareTwitter(){
+  if(!currentLink)return;
+  const txt=encodeURIComponent(`If you need a personal website, Bear builds them from $10 🔥 → ${currentLink}`);
+  window.open(`https://twitter.com/intent/tweet?text=${txt}`,'_blank');
+}
+
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+</script>
+</body>
+</html>
