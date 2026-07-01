@@ -11,6 +11,14 @@
 <meta name="author" content="Bear — liltayara">
 <link rel="canonical" href="https://liltayara.github.io/Bearsite/">
 
+<!-- ══ Preconnect — warms up DNS/TLS for external domains before their <link>/<script> tags are reached ══ -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.lordicon.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://apis.google.com" crossorigin>
+
 <!-- ══ Open Graph (واتساب / تيليجرام / فيسبوك) ══ -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://liltayara.github.io/Bearsite/">
@@ -29,7 +37,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
 <script src="https://cdn.lordicon.com/lordicon.js"></script>
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+<!-- Firebase Auth — replaces the old raw Google Identity Services flow.
+     Firebase verifies the Google sign-in against Google's own servers and
+     issues a signed ID token; it isn't just decoded client-side anymore. -->
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.13.2/firebase-auth-compat.js"></script>
 
 <style>
 :root{
@@ -77,6 +89,10 @@ a:focus,button:focus{outline:none}
 .btn-g{background:linear-gradient(135deg,var(--gold),#fbbf24);color:#07070f;font-weight:700;box-shadow:0 4px 22px rgba(245,158,11,.3),inset 0 1px 0 rgba(255,255,255,.35)}
 .btn-g:hover{transform:translateY(-2px);box-shadow:0 10px 38px rgba(245,158,11,.42),inset 0 1px 0 rgba(255,255,255,.4)}
 .btn-lg{padding:16px 38px;font-size:16px;border-radius:11px}
+
+.g-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:320px;padding:11px 20px;border-radius:9px;background:#131316;border:1px solid rgba(255,255,255,.14);color:#fff;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:.2s}
+.g-btn:hover{border-color:rgba(255,255,255,.3);background:#1a1a1e}
+.g-btn:disabled{opacity:.6;cursor:wait}
 
 .ham{display:none;flex-direction:column;gap:5px;cursor:pointer}
 .ham span{display:block;width:24px;height:2px;background:var(--t1);border-radius:2px;transition:.3s}
@@ -449,7 +465,12 @@ body.login-open{overflow:hidden;touch-action:none}
     </div>
     <!-- Google Sign In Button -->
     <div id="loginBtnWrap">
-      <div id="g-signin-btn" style="display:flex;justify-content:center"></div>
+      <div id="g-signin-btn" style="display:flex;justify-content:center">
+        <button type="button" class="g-btn" onclick="startGoogleSignIn()">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.64 9.2c0-.64-.06-1.25-.16-1.84H9v3.48h4.84a4.14 4.14 0 0 1-1.8 2.72v2.26h2.9c1.7-1.57 2.7-3.87 2.7-6.62z"/><path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.9-2.26c-.8.54-1.84.86-3.06.86-2.35 0-4.34-1.59-5.05-3.72H.94v2.33A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.95 10.7A5.4 5.4 0 0 1 3.67 9c0-.59.1-1.17.28-1.7V4.97H.94A9 9 0 0 0 0 9c0 1.45.35 2.83.94 4.03l3.01-2.33z"/><path fill="#EA4335" d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58C13.46.89 11.43 0 9 0A9 9 0 0 0 .94 4.97l3.01 2.33C4.66 5.17 6.65 3.58 9 3.58z"/></svg>
+          <span>Continue with Google</span>
+        </button>
+      </div>
     </div>
     <!-- Loading after sign-in -->
     <div class="login-loading" id="loginLoading">
@@ -1351,51 +1372,63 @@ document.querySelectorAll('.faq-q').forEach(btn=>{
 });
 
 // ══════════════════════════════════════════════════
-// GOOGLE SIGN-IN
+// GOOGLE SIGN-IN — via Firebase Auth
 // ══════════════════════════════════════════════════
-// ⚠️ ضع Client ID من Google Cloud Console هنا:
-const GOOGLE_CLIENT_ID = '66770893866-3v6ofmc4aiiff8mkcqo23pg0lbercsub.apps.googleusercontent.com';
+// Firebase verifies the Google OAuth token against Google's own servers
+// and issues its own signed ID token — this is real, server-checked auth,
+// not a client-side JWT decode. If a backend (e.g. the Railway service)
+// ever needs to trust this identity, it should verify the ID token via
+// the Firebase Admin SDK: admin.auth().verifyIdToken(idToken).
+//
+// ⚠️ Paste your bearssites config from Firebase Console →
+// Project settings → General → Your apps → SDK setup and configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyA2hYu9LiVWQk8-YQiHqz3ikJdqT1gGB7c",
+  authDomain: "bearssites.firebaseapp.com",
+  projectId: "bearssites",
+  storageBucket: "bearssites.firebasestorage.app",
+  messagingSenderId: "66770893866",
+  appId: "1:66770893866:web:3fa1cd5d59fe8489d35753"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+// Session-only persistence — signed out automatically when the tab closes,
+// matching the previous sessionStorage-based behavior.
+auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
 
 let googleUser = null;
 
-function startGoogleSignIn() {
-  if (typeof google === 'undefined') {
-    showToast('error', 'Connection Error', 'Could not load Google Sign-In. Check your internet.');
-    return;
-  }
-  google.accounts.id.initialize({
-    client_id: GOOGLE_CLIENT_ID,
-    callback: handleGoogleCredential,
-    auto_select: false,
-  });
-  google.accounts.id.renderButton(
-    document.getElementById('g-signin-btn'),
-    { theme: 'filled_black', size: 'large', width: 320, text: 'continue_with', shape: 'rectangular', logo_alignment: 'left' }
-  );
+function setSignInButtonBusy(busy) {
+  document.querySelectorAll('.g-btn').forEach(b => { b.disabled = busy; });
 }
 
-// Render button as soon as Google SDK is ready
-window.addEventListener('load', () => {
-  const checkGoogle = setInterval(() => {
-    if (typeof google !== 'undefined') {
-      clearInterval(checkGoogle);
-      startGoogleSignIn();
-    }
-  }, 100);
-});
-
-function handleGoogleCredential(response) {
+async function startGoogleSignIn() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  setSignInButtonBusy(true);
   try {
-    const payload = JSON.parse(atob(response.credential.split('.')[1]));
-    googleUser = { name: payload.name, email: payload.email, picture: payload.picture };
-    // Session-only storage — cleared when the tab closes or the user signs out.
-    // (Previously also mirrored into localStorage, which kept the user's
-    // name/email/photo on the device indefinitely, even after sign-out.)
-    sessionStorage.setItem('bear_guser', JSON.stringify(googleUser));
+    await auth.signInWithPopup(provider);
+    // onAuthStateChanged (below) picks up the verified user and updates the UI.
+  } catch (e) {
+    setSignInButtonBusy(false);
+    if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+      showToast('error', 'Sign-In Error', 'Could not sign in with Google. Please try again.');
+    }
+  }
+}
 
+// Fires on sign-in, sign-out, and on page load if a valid session exists —
+// Firebase has already verified the user server-side by this point.
+let firstAuthCheck = true;
+auth.onAuthStateChanged((user) => {
+  setSignInButtonBusy(false);
+  if (user) {
+    googleUser = { name: user.displayName || user.email, email: user.email, picture: user.photoURL || '' };
     const loginScreenVisible = !document.getElementById('loginScreen').classList.contains('out');
 
-    if (loginScreenVisible) {
+    if (firstAuthCheck) {
+      // Page just loaded with an existing verified session — restore UI directly.
+      dismissLoginScreen(googleUser);
+    } else if (loginScreenVisible) {
       // Normal login flow — show loading card briefly
       document.getElementById('loginBtnWrap').style.display = 'none';
       const ll = document.getElementById('loginLoading');
@@ -1411,10 +1444,20 @@ function handleGoogleCredential(response) {
       dismissLoginScreen(googleUser);
       showToast('success', 'Account Switched ✅', googleUser.name);
     }
-  } catch(e) {
-    showToast('error', 'Sign-In Error', 'Could not read account info. Please try again.');
+  } else {
+    googleUser = null;
+    if (!firstAuthCheck) {
+      document.getElementById('navUser').style.display = 'none';
+      const cta = document.querySelector('.nav-cta');
+      if (cta) cta.style.display = '';
+    }
+    document.getElementById('loginBtnWrap').style.display = 'block';
+    document.getElementById('loginLoading').style.display = 'none';
+    document.getElementById('loginScreen').classList.remove('out');
+    document.body.classList.add('login-open');
   }
-}
+  firstAuthCheck = false;
+});
 
 function dismissLoginScreen(user) {
   document.getElementById('loginScreen').classList.add('out');
@@ -1448,18 +1491,10 @@ function switchAccount(e) {
   e.stopPropagation();
   document.getElementById('navDropdown').classList.remove('open');
   document.getElementById('loginBtnWrap').style.display = 'block';
-  document.getElementById('g-signin-btn').innerHTML = '';
   document.getElementById('loginLoading').style.display = 'none';
   document.getElementById('loginUserCard').style.display = 'none';
   document.getElementById('loginScreen').classList.remove('out');
   document.body.classList.add('login-open');
-  if (typeof google !== 'undefined') {
-    google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential, auto_select: false });
-    google.accounts.id.renderButton(
-      document.getElementById('g-signin-btn'),
-      { theme: 'filled_black', size: 'large', width: 320, text: 'continue_with', shape: 'rectangular', logo_alignment: 'left' }
-    );
-  }
 }
 function openLogoutConfirm(e) {
   e.stopPropagation();
@@ -1479,28 +1514,8 @@ document.addEventListener('click', () => {
 });
 
 function signOutGoogle() {
-  sessionStorage.removeItem('bear_guser');
-  try { localStorage.removeItem('bear_guser_persist'); } catch(e){} // cleanup of legacy data
-  googleUser = null;
-  document.getElementById('navUser').style.display = 'none';
-  const cta = document.querySelector('.nav-cta');
-  if (cta) cta.style.display = '';
-  document.getElementById('loginBtnWrap').style.display = 'block';
-  document.getElementById('loginLoading').style.display = 'none';
-  document.getElementById('loginScreen').classList.remove('out');
-  document.body.classList.add('login-open');
+  auth.signOut(); // onAuthStateChanged handles the UI reset
 }
-
-// Check existing session
-(function checkSession() {
-  const saved = sessionStorage.getItem('bear_guser');
-  if (saved) {
-    try { googleUser = JSON.parse(saved); dismissLoginScreen(googleUser); }
-    catch(e) { sessionStorage.removeItem('bear_guser'); document.body.classList.add('login-open'); }
-  } else {
-    document.body.classList.add('login-open');
-  }
-})();
 
 // No form on this page — moved to order.html
 
