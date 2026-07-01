@@ -518,7 +518,6 @@ body.login-open{overflow:hidden;touch-action:none}
     <div id="wx-switch-menu" class="wx-switch-menu" role="listbox">
       <button type="button" data-wx="sunny"><i class="fa-solid fa-sun"></i> Clear Sky</button>
       <button type="button" data-wx="spring"><i class="fa-solid fa-seedling"></i> Spring</button>
-      <button type="button" data-wx="cloudy"><i class="fa-solid fa-cloud"></i> Cloudy</button>
       <button type="button" data-wx="fog"><i class="fa-solid fa-smog"></i> Foggy</button>
       <button type="button" data-wx="rain"><i class="fa-solid fa-cloud-rain"></i> Rainy</button>
       <button type="button" data-wx="storm"><i class="fa-solid fa-bolt"></i> Storm</button>
@@ -1505,7 +1504,7 @@ function signOutGoogle() {
 
 /* ══════════════════════════════════════════════════════════════
    WEATHER BACKGROUND SYSTEM  — canvas-based, Open-Meteo API
-   Conditions: sunny · spring · cloudy · rain · storm · snow · night
+   Conditions: sunny · spring · rain · storm · snow · fog · night
 ══════════════════════════════════════════════════════════════ */
 (function WeatherBG() {
   'use strict';
@@ -1529,10 +1528,30 @@ function signOutGoogle() {
   let nextBolt = 0;
 
   // ── Resize ──────────────────────────────────────────────────
+  // Mobile browsers fire a `resize` event when the address bar hides/shows
+  // during scroll — that only changes viewport HEIGHT, not width. Previously
+  // this rebuilt the whole scene on every one of those events, which wiped
+  // and respawned every cloud/drop/flake/star mid-animation — visible as a
+  // jump/"restart" glitch while scrolling. Now we only do a full rebuild
+  // when the width actually changes (real resize/rotation); a height-only
+  // change just resizes the canvas and lets existing particles carry on.
+  let lastW = 0;
+
   function resize() {
     const hero = document.querySelector('.hero');
-    W = canvas.width  = hero.offsetWidth;
-    H = canvas.height = hero.offsetHeight;
+    const newW = hero.offsetWidth;
+    const newH = hero.offsetHeight;
+
+    if (newW === lastW && lastW !== 0) {
+      // height-only change (mobile browser chrome) — just resync canvas size
+      W = canvas.width  = newW;
+      H = canvas.height = newH;
+      return;
+    }
+
+    lastW = newW;
+    W = canvas.width  = newW;
+    H = canvas.height = newH;
     buildScene();
   }
 
@@ -1542,8 +1561,7 @@ function signOutGoogle() {
     if ([51,53,55,61,63,65,66,67,80,81,82].includes(code)) return 'rain';
     if ([71,73,75,77,85,86].includes(code))                 return 'snow';
     if ([45,48].includes(code))                             return 'fog';
-    if ([2,3].includes(code))                               return 'cloudy';
-    // code 0 or 1: clear — check season
+    // code 0,1,2,3 (clear → mostly cloudy): no cloudy visual anymore — fall back to season
     if (month >= 3 && month <= 5)                           return 'spring';
     return 'sunny';
   }
@@ -1551,7 +1569,6 @@ function signOutGoogle() {
   const WX_META = {
     sunny : { icon:'fa-sun',            label:'Clear Sky',    color:'#f59e0b' },
     spring: { icon:'fa-seedling',       label:'Spring',       color:'#a3e635' },
-    cloudy: { icon:'fa-cloud',          label:'Cloudy',       color:'#94a3b8' },
     fog   : { icon:'fa-smog',           label:'Foggy',        color:'#94a3b8' },
     rain  : { icon:'fa-cloud-rain',     label:'Rainy',        color:'#60a5fa' },
     storm : { icon:'fa-bolt',           label:'Thunderstorm', color:'#a78bfa' },
@@ -1595,7 +1612,7 @@ function signOutGoogle() {
   function buildScene() {
     clouds = []; drops = []; flakes = []; petals = []; stars = []; bolt = { alive:false, segs:[], flashAlpha:0, life:0 };
 
-    const cCount = { cloudy:7, fog:8, rain:6, storm:10, snow:3, night:3 };
+    const cCount = { fog:8, rain:6, storm:10, snow:3, night:3 };
     const n = cCount[weather];
     if (n) for (let i = 0; i < n; i++) clouds.push(mkCloud(true));
 
@@ -2006,10 +2023,6 @@ function signOutGoogle() {
       case 'spring':
         drawSun(false);
         drawPetals();
-        break;
-
-      case 'cloudy':
-        clouds.forEach(c => { c.x += c.speed; if (c.x - c.w * 0.7 > W + 100) c.x = -c.w; drawCloud(c); });
         break;
 
       case 'fog':
