@@ -1392,9 +1392,10 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
-// Session-only persistence — signed out automatically when the tab closes,
-// matching the previous sessionStorage-based behavior.
-auth.setPersistence(firebase.auth.Auth.Persistence.SESSION);
+// Local persistence — user stays signed in across page refreshes and
+// browser restarts (until they explicitly sign out). Previously this was
+// SESSION-only, which forced the login screen to reappear on every reload.
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
 
 let googleUser = null;
 
@@ -1429,16 +1430,8 @@ auth.onAuthStateChanged((user) => {
       // Page just loaded with an existing verified session — restore UI directly.
       dismissLoginScreen(googleUser);
     } else if (loginScreenVisible) {
-      // Normal login flow — show loading card briefly
-      document.getElementById('loginBtnWrap').style.display = 'none';
-      const ll = document.getElementById('loginLoading');
-      ll.style.display = 'flex';
-      const lc = document.getElementById('loginUserCard');
-      document.getElementById('loginUserAv').src = googleUser.picture;
-      document.getElementById('loginUserName').textContent = googleUser.name;
-      document.getElementById('loginUserEmail').textContent = googleUser.email;
-      setTimeout(() => { lc.style.display = 'flex'; }, 150);
-      setTimeout(() => dismissLoginScreen(googleUser), 700);
+      // Normal login flow — dismiss immediately, no artificial delay
+      dismissLoginScreen(googleUser);
     } else {
       // Switch account flow — update nav immediately, no login screen
       dismissLoginScreen(googleUser);
